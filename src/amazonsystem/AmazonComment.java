@@ -27,6 +27,37 @@ public class AmazonComment {
 		String report = String.format("- Comment: %s - rating: %f",comment,rating);
 		return report;
 	}
+
+	//getters and setters 
+	
+	public String getComment() {
+		return comment;
+	}
+
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+
+	public AmazonProduct getProduct() {
+		return product;
+	}
+
+
+	public void setProduct(AmazonProduct product) {
+		this.product = product;
+	}
+
+
+	public float getRating() {
+		return rating;
+	}
+
+
+	public void setRating(float rating) {
+		this.rating = rating;
+	}
 	
 	
 

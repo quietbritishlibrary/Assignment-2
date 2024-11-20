@@ -67,12 +67,7 @@ public class AmazonProduct {
 				
 				   
 				return product;
-		   
-			 
-			
-			
-			
-			
+		
 		}
 
 	
