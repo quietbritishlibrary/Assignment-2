@@ -13,6 +13,7 @@ public class AmazonCustomer {
 	private List <AmazonComment> comments = new ArrayList <AmazonComment>();
 	private List <AmazonProduct> wishlist = new ArrayList <AmazonProduct>();
 	
+
 	/**
      * AmazonCustomer parameterized-constructor
      * @param The customers id, name and address.
@@ -55,9 +56,6 @@ public class AmazonCustomer {
 		        String address = data[2];
 				
 				AmazonCustomer customer = new AmazonCustomer(data);
-				
-				System.out.println(customer.toString());
-				
 				   
 				return customer;
 		
@@ -66,6 +64,44 @@ public class AmazonCustomer {
 	//public void addCredit
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	// getters and setters
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 	
 
 }

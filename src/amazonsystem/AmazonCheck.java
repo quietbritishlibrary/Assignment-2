@@ -4,15 +4,17 @@ public class AmazonCheck extends AmazonCredit {
 	
 	private String accountNumber;
 	
+	
+	/**
+     * AmazonCheck parameterized-constructor
+     * @param The checks account number, as well as the amount of money on the check itself.
+     */
 	private AmazonCheck(String myAccountNumber, float myAmount ) {
 		super(myAmount);
 		accountNumber = myAccountNumber;
 	}
 	
-	
-	
-	
-	
+
 	/**
      * AmazonCheck constructor used to assign substrings to appropriately parsed AmazonCheck property
      * @param String array of substrings of the check data.
