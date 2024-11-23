@@ -36,27 +36,50 @@ public class AmazonCard extends AmazonCredit {
      * @param String array of substrings of the checks data.
      */
 	
-	public static AmazonCheck createAmazonCheck(String [] data) {
+	public static AmazonCard createAmazonCheck(String [] data) {
 		   
 		   if(data == null) {
 			   return null;
 			   
-		   } else if(data.length != 2) {
+		   } else if(data.length != 3) {
 			   return null;
 		   }
 		   
-
-		        float amount = Float.parseFloat(data[1]);
-				String accountNumber = data[0];
+		   		
+		        float amount = Float.parseFloat(data[2]);
+				String number = data[0];
+				String expiration = data[1];
 				
-				AmazonCheck check = new AmazonCheck(data);
+				if(number.isBlank() || number.isEmpty() || expiration.isBlank() || expiration.isEmpty()) {
+					return null;
+				}
 				
-				System.out.println(check.toString());
+				AmazonCard card = new AmazonCard(data);
+				
 				
 				   
-				return check;
+				return card;
 		
 		}
+	
+	
+	//getters and setters
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
+	public String getExpiration() {
+		return expiration;
+	}
+
+	public void setExpiration(String expiration) {
+		this.expiration = expiration;
+	}
 	
 	
 	

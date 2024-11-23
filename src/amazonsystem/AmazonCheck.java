@@ -43,23 +43,32 @@ public class AmazonCheck extends AmazonCredit {
 		        float amount = Float.parseFloat(data[1]);
 				String accountNumber = data[0];
 				
+				if(accountNumber.isBlank() || accountNumber.isEmpty()) {
+					return null;
+				}
+				
 				AmazonCheck check = new AmazonCheck(data);
 				
-				System.out.println(check.toString());
 				
 				   
 				return check;
 		
 		}
+
+
 	
+	//getters and setters
 	
+	public String getAccountNumber() {
+		return accountNumber;
+	}
+
+
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
+	}
 	
-	
-	
-	
-	
-	
-	
-	//toString: Prints the credit (showing credit type, account and value).
+
+
 
 }
