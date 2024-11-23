@@ -18,6 +18,29 @@ public class AmazonCash extends AmazonCredit{
 		super(Float.parseFloat(data[0]));
 	}
 	
+	/**
+     * AmazonCash method used to create AmazonCash objects as long as they aren't null
+     * @param String array of substrings of the checks data.
+     */
+	public static AmazonCash createAmazonCash(String [] data) {
+		   
+		   if(data == null) {
+			   return null;
+			   
+		   } else if(data.length != 1) {
+			   return null;
+		   }
+		   
+
+		        float amount = Float.parseFloat(data[0]);		
+				AmazonCash cash = new AmazonCash(data);
+				
+				
+				   
+				return cash;
+		
+		}
+	
 	
 
 }
