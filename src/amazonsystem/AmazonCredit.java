@@ -25,8 +25,8 @@ public abstract class AmazonCredit {
 		int enumIndex = type.ordinal();
 		
 		//format AmazonCredit info into string
-		String report = String.format("- Credit %d: Type: %s, value: %.2f .",enumIndex, type, amount);
-		return report;
+		return String.format("- Credit %d: Type: %s, value: %.2f .",enumIndex, type, amount);
+		
 	}
 
 }
