@@ -12,6 +12,7 @@ public class AmazonCustomer {
 	private String address;
 	private List <AmazonComment> comments = new ArrayList <AmazonComment>();
 	private List <AmazonProduct> wishlist = new ArrayList <AmazonProduct>();
+	private List <AmazonCredit> credits = new ArrayList <AmazonCredit>();
 	
 
 	/**
@@ -22,6 +23,9 @@ public class AmazonCustomer {
 		id = myId;
 		name = myName;
 		address = myAddress;
+		this.comments = new ArrayList<AmazonComment>();
+        this.wishlist = new ArrayList<AmazonProduct>();
+        this.credits = new ArrayList<AmazonCredit>();
 	}
 	
 	/**
@@ -61,12 +65,63 @@ public class AmazonCustomer {
 		
 		}
 	
-	//public void addCredit
+	/**
+     * AmazonCustomer method for adding credits to the customers profile
+     * @param the AmazonCredit the customer wants to add.
+     */
+	public void addCredits(AmazonCredit credit) {
+		credits.add(credit);
+	}
 	
+	/**
+     * AmazonCredits method for displaying the credits in the customers list
+     */
+	public void showCredits() {
+		for(AmazonCredit c : credits) {
+			System.out.println(c);
+		}
+	}
 	
+	/**
+     * AmazonCredits method for adding product to wishlist
+     */
+	public void addProductInWishList(AmazonProduct product) {
+		wishlist.add(product);
+	}
 	
+	/**
+     * AmazonCredits method for removing product from wishlist
+     */
+	public void removeProductFromWishList(AmazonProduct product) {
+		wishlist.remove(product);
+	}
 	
+	/**
+     * AmazonCredits method for checking if a product is in the wishlist
+     * @param AmazonProduct searched in the wishlist
+     * @return The method should return true if the specified AmazonProduct is found in the collection; otherwise, it should return false, indicating that the product was not located.
+     */
+	public boolean isProductInWishList(AmazonProduct product) {
+		int size = wishlist.size();
+		
+		for(int i = 0; i < size; i++) {
+			AmazonProduct currentProduct = wishlist.get(i); //points to current AmazonProduct 
+			if (currentProduct.equals(product)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
 	
+	/**
+     * AmazonCredits method for printing the items of the wishlist
+     */
+	public void showWishList() {
+		for(AmazonProduct p : wishlist) {
+			System.out.println(p);
+		}
+	}
 	
 	
 	

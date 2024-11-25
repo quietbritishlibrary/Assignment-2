@@ -25,8 +25,28 @@ public abstract class AmazonCredit {
 		int enumIndex = type.ordinal();
 		
 		//format AmazonCredit info into string
-		return String.format("- Credit %d: Type: %s, value: %.2f .",enumIndex, type, amount);
+		return String.format("- Credit [%d]: Type: %s, value: %.2f .",enumIndex, type, amount);
 		
 	}
+	
+	//getters and setters
+	
+	public float getAmount() {
+		return amount;
+	}
+
+	public void setAmount(float amount) {
+		this.amount = amount;
+	}
+
+	public PaymentType getType() {
+		return type;
+	}
+
+	public void setType(PaymentType type) {
+		this.type = type;
+	}
+	
+	
 
 }

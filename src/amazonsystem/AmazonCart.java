@@ -110,7 +110,6 @@ public class AmazonCart implements Payable {
 			}
 		}
 		
-		//sdad
 		
 	}
 	
