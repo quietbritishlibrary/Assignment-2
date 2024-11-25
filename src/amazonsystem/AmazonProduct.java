@@ -39,12 +39,10 @@ public class AmazonProduct {
 	public static AmazonProduct createAmazonProduct(String [] data) {
 		   
 		   if(data == null) {
-			   
-			   System.out.println("[Unable to create product]");
+
 			   return null;
 			   
-		   } else if(data.length < 10) {
-			   System.out.println("[Unable to create product]...");
+		   } else if(data.length != 10) {
 			   return null;
 		   }
 		   
@@ -61,11 +59,21 @@ public class AmazonProduct {
 				float discountPrice = Float.parseFloat(data[8]);
 				float actualPrice =Float.parseFloat(data[9]);
 				
+				if (id < 1 || 
+					    name == null || name.isBlank() || 
+					    category == null || category.toString().isBlank() || 
+					    subCategory == null || subCategory.toString().isBlank() || 
+					    imageURL == null || imageURL.isBlank() || 
+					    link == null || link.isBlank() || 
+					    rating < 0 || rating > 5 || 
+					    nRatings < 0 || 
+					    discountPrice < 0 || 
+					    actualPrice < 0 || actualPrice < discountPrice) { 
+					    return null;
+					}
+				
 				AmazonProduct product = new AmazonProduct(data);
-				
-				System.out.println(product.toString());
-				
-				   
+  
 				return product;
 		
 		}

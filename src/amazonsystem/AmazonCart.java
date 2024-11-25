@@ -18,6 +18,11 @@ public class AmazonCart implements Payable {
 	}
 	
 	/**
+     * AmazonCart default constructor
+     */
+	public AmazonCart() {}
+	
+	/**
      * AmazonCart sub-total calculation method.
      * @return the sum of each items sub-total in the users cart.
      */

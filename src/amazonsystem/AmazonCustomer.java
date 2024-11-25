@@ -59,6 +59,10 @@ public class AmazonCustomer {
 			    int id = Integer.parseInt(data[0]);
 				String name = data[1];
 		        String address = data[2];
+		        
+		        if(name.isBlank() || name.isEmpty() || address.isBlank() || address.isEmpty() || id < 1) {
+					return null;
+				}
 				
 				AmazonCustomer customer = new AmazonCustomer(data);
 				   
@@ -124,7 +128,7 @@ public class AmazonCustomer {
 	}
 	
 	/**
-     * AmazonCredits method for printing the items of the wishlist
+     * AmazonCustomer method for printing the items of the wishlist
      */
 	public void showWishList() {
 		for(AmazonProduct p : wishlist) {
@@ -132,12 +136,17 @@ public class AmazonCustomer {
 		}
 	}
 	
-	//public void addItemInCart(AmazonCartItem item) {
-	//	this.
-	//}
+	/**
+     * AmazonCustomer method for adding items to the customers cart
+     * @param the item that the customer wishes to add.
+     */
+	public void addItemInCart(AmazonCartItem item) {
+		AmazonCart cart = new AmazonCart(this);
+	    cart.getItems().add(item);
+	}
 	
 	/**
-     * AmazonCredits method for adding comments to the comments list
+     * AmazonCustomer method for adding comments to the comments list
      * @param The AmazonComment the user wishes to add.
      */
 	public void addComment(AmazonComment comment) {
@@ -145,7 +154,7 @@ public class AmazonCustomer {
 	}
 	
 	/**
-     * AmazonCredits method for creating a new comment
+     * AmazonCustomer method for creating a new comment
      * @param The AmazonComment product, comment and rating that it pertains to.
      * @return true or false based on if the AmazonComment object managed to be created.
      */
