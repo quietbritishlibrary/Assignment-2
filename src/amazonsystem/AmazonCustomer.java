@@ -90,10 +90,18 @@ public class AmazonCustomer {
 	}
 	
 	/**
-     * AmazonCredits method for removing product from wishlist
+     * AmazonCredits method for removing product from wishlist based on their ID
+     * @param product that the user wishes to remove.
      */
 	public void removeProductFromWishList(AmazonProduct product) {
-		wishlist.remove(product);
+		int size = wishlist.size();
+		for(int i = 0; i < size; i++) {
+			AmazonProduct currentProduct = wishlist.get(i);
+			if(currentProduct.equals(product)) {
+				wishlist.remove(i);
+				break;
+			}
+		}
 	}
 	
 	/**
@@ -122,6 +130,10 @@ public class AmazonCustomer {
 			System.out.println(p);
 		}
 	}
+	
+	//public void addItemInCart(AmazonCartItem item) {
+	//	this.
+	//}
 	
 	
 	

@@ -143,6 +143,33 @@ public class AmazonCart implements Payable {
 	}
 
 	
+	//getters and setters
+	
+	public AmazonCustomer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(AmazonCustomer customer) {
+		this.customer = customer;
+	}
+
+	public ArrayList<AmazonCartItem> getItems() {
+		return items;
+	}
+
+	public void setItems(ArrayList<AmazonCartItem> items) {
+		this.items = items;
+	}
+
+	public float getTotalValue() {
+		return totalValue;
+	}
+
+	public void setTotalValue(float totalValue) {
+		this.totalValue = totalValue;
+	}
+
+	
 	
 	
 
