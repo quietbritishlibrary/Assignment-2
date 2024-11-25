@@ -4,6 +4,7 @@ package amazonsystem;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class AmazonCustomer {
 	
 	// field
@@ -135,13 +136,48 @@ public class AmazonCustomer {
 	//	this.
 	//}
 	
+	/**
+     * AmazonCredits method for adding comments to the comments list
+     * @param The AmazonComment the user wishes to add.
+     */
+	public void addComment(AmazonComment comment) {
+		comments.add(comment);
+	}
 	
+	/**
+     * AmazonCredits method for creating a new comment
+     * @param The AmazonComment product, comment and rating that it pertains to.
+     * @return true or false based on if the AmazonComment object managed to be created.
+     */
+	public boolean setComment(AmazonProduct product, String newComment, float rating) {
+		
+		if (product == null || newComment == null || newComment.isEmpty() || rating < 0 || rating > 5) {
+            return false; 
+        }
+
+		AmazonComment comment = new AmazonComment(product, newComment, rating);
+		
+		comments.add(comment);
+		
+		return true;
+		
+	}
 	
+	/**
+     * AmazonCredits method for printing the comments in the comments list.
+     */
+	public void showComments() {
+		for(AmazonComment c : comments) {
+			System.out.println(c);
+		}
+	}
 	
-	
-	
-	
-	
+	/**
+     * AmazonCredits method for formatting and printing the customers.
+     */
+	public String toString() {
+		return String.format("Customer: - Customer: [Id: %d], [Name: %s], [Address: %s]", id, name, address);
+	}
 	
 
 	// getters and setters
