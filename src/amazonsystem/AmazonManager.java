@@ -7,26 +7,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import amazonproducts.AmazonProduct;
-import amazonproducts.AmazonProductException;
-import amazonproducts.AmazonProductManager;
-
-
 public class AmazonManager {
 	
+	// objects
 	Scanner input = new Scanner(System.in);
-    private final int NUMCOLS = 10; // constant for number of columns in the CSV file
-    
+	AmazonProductList productList = new AmazonProductList();
+     
     // lists
     private List <AmazonProduct> products = new ArrayList<AmazonProduct>();
-    private ArrayList<String> DEFAULT_TITLE = new ArrayList<>(); // list for storing the contents of the first column of the file
 	private List<AmazonCustomer> customers = new ArrayList<AmazonCustomer>();
 	
+	// main
 	public static void main(String[] args) throws AmazonException {
 		AmazonManager manage = new AmazonManager();
 		manage.loadProductList();
 		manage.showProductList();
-		
+		manage.searchInProducts();
 
 	}
 
@@ -124,44 +120,7 @@ public class AmazonManager {
 				+ "================================");
 	}
 	
-	
-	/**
-     * Creates a list of products by reading data from a CSV file.
-     * @param csvFile The path to the CSV file
-     * @throws AmazonProductException If there is an issue reading the file
-     */
-    public void createList(String csvFile) throws AmazonException { 
-        
-        try(BufferedReader reader = new BufferedReader(new FileReader(csvFile));) {
-            // Read the first line to get the column headers and store it as the default title
-            String title = reader.readLine();
-            DEFAULT_TITLE.add(title);
-            
-            // Read each line from the CSV file and process the data into products
-            String line = reader.readLine();
-            String[] data = new String[NUMCOLS];
-           
-            while (line != null) {
-                // Split each line into individual product data
-                data = AmazonUtil.lineReader(line, 0);    
-                // Create a new AmazonProduct object and add it to the bestsellers list
-                AmazonProduct product = new AmazonProduct(data);                
-                products.add(product);
-                line = reader.readLine(); // Read the next line
-            }
-            
-        } catch(FileNotFoundException e) {
-            // Handle case where the file is not found
-            throw new AmazonException("Error opening the file. " + e.getMessage());
-        } catch (IOException e) {
-            // Handle other IO exceptions
-            throw new AmazonException("File not found! " +  e.getMessage());
-        }  
-    }
-	
-	
-	
-	
+	//load products from CSV onto the products list
 	public void loadProductList() throws AmazonException {
 		boolean isValid = true;
 		while (isValid) {
@@ -175,7 +134,7 @@ public class AmazonManager {
 					file = "src\\amazonsystem\\Sample-Amazon-Products-v2.csv";
 					isValid = false;
 				}
-				createList(file);
+				productList.createList(file);
 				
 				System.out.println("product loaded!");
 				
@@ -187,22 +146,45 @@ public class AmazonManager {
 		}
 	}
 	
-	
+	//print contents of the products list
 	public void showProductList() {
 		System.out.println("PRODUCTLIST .........");
-		
-		
-	        if(products.isEmpty()) {
-	            // Inform the user if the list is empty
-	            System.out.println("List is empty! Load a product list to view.");
-	        } else {
-	            // Print the default title (headers)
-	            System.out.println(DEFAULT_TITLE);
-	            // Print each product's details
-	            for(AmazonProduct product : products) {
-	                System.out.println(product);
-	            }
-	        }
-	    
+		productList.printList();     
 	}
+	
+	
+    
+  //search for products with the given string
+  	public void searchInProducts() throws AmazonException {
+  		String query = "";
+  		boolean isValid = true;
+
+  		while (isValid) {
+  			try {
+  				
+  				System.out.print("Search: ");
+  				
+  				query = input.nextLine();
+  				if (query.isEmpty()) {
+  					isValid = true;
+  					throw new AmazonException("AmazonProductException: Search cannot be empty!");
+  				} else {
+  					isValid = false;
+  				}
+  			} catch (AmazonException e) {
+  				
+  				System.out.println(e.getLocalizedMessage());
+  				
+  			}
+  		}
+  		productList.search(query);
+  	}
+  	
+  	// method for adding customer 
+  	
+  	public void addCustomer() {
+  		
+  	}
+  	
+  	
 }
