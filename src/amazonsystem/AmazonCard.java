@@ -1,5 +1,7 @@
 package amazonsystem;
 
+import amazonsystem.AmazonCredit.PaymentType;
+
 public class AmazonCard extends AmazonCredit {
 	
 	//properties
@@ -14,6 +16,7 @@ public class AmazonCard extends AmazonCredit {
 		super(myAmount);
 		number = myNumber;
 		expiration = myExpiration;
+		setType(PaymentType.Card);
 	}
 	
 	/**
@@ -36,7 +39,7 @@ public class AmazonCard extends AmazonCredit {
      * @param String array of substrings of the checks data.
      */
 	
-	public static AmazonCard createAmazonCheck(String [] data) {
+	public static AmazonCard createAmazonCard(String [] data) {
 		   
 		   if(data == null) {
 			   return null;

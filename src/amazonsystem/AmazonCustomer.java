@@ -39,8 +39,7 @@ public class AmazonCustomer {
 		this.address = data[2];
 	}
 	
-	
-	
+
 	/**
      * AmazonCustomer method used to create AmazonCustomer objects as long as they aren't null
      * @param String array of substrings of the customers data.

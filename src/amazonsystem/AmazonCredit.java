@@ -2,7 +2,7 @@ package amazonsystem;
 
 public abstract class AmazonCredit {
 	
-	private enum PaymentType {Cash, Check, Card}
+	enum PaymentType {Cash, Check, Card}
 	private float amount;
 	private PaymentType type;
 	
@@ -12,8 +12,7 @@ public abstract class AmazonCredit {
      */
 	public AmazonCredit(float myAmount){
 		amount = myAmount;
-		//type = myType;
-		//, PaymentType myType
+
 	}
 	
 	/**

@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import amazonsystem.AmazonCredit.PaymentType;
+
 public class AmazonManager {
 	
 	// objects
@@ -20,9 +22,12 @@ public class AmazonManager {
 	// main
 	public static void main(String[] args) throws AmazonException {
 		AmazonManager manage = new AmazonManager();
-		manage.loadProductList();
-		manage.showProductList();
-		manage.searchInProducts();
+		//manage.loadProductList(); works
+		//manage.showProductList(); works
+		//manage.searchInProducts(); works
+		manage.addCustomer(); 
+		manage.showCustomers(); 
+		manage.addCreditToCustomer();
 
 	}
 
@@ -188,13 +193,12 @@ public class AmazonManager {
   		    String id = "";
   		    String name = "";
   		    String address = "";
-  		    String [] data = {id,name,address};
   		    int size = customers.size();
   		    
 
   		    while (true) {
   		        try {
-  		            System.out.println("Enter the Customer ID: ");
+  		            System.out.print("Enter the Customer ID: ");
   		            id = input.nextLine();
 
   		            if (!AmazonUtil.isValidInt(id)) {
@@ -220,7 +224,7 @@ public class AmazonManager {
 
   		    while (true) {
   		        try {
-  		            System.out.println("Enter the Customer Name: ");
+  		            System.out.print("Enter the Customer Name: ");
   		            name = input.nextLine();
 
   		            if (!AmazonUtil.isValidString(name)) {
@@ -236,7 +240,7 @@ public class AmazonManager {
 
   		    while (true) {
   		        try {
-  		            System.out.println("Enter the Customer Address: ");
+  		            System.out.print("Enter the Customer Address: ");
   		            address = input.nextLine();
 
   		            if (!AmazonUtil.isValidString(address)) {
@@ -250,16 +254,126 @@ public class AmazonManager {
   		        }
   		    }
   		    
+  		    String [] data = {id,name,address};
   		    customers.add(AmazonCustomer.createAmazonCustomer(data));
 
   	}
   	
+  	/**
+     * AmazonManager method used for printing the contents of the customers list
+     */
   	public void showCustomers() {
   		System.out.println("[Printing customers ...]");
 		for(AmazonCustomer c : customers) {
 			System.out.println(c);
 		}
   	}
+  	
+  	/**
+     * AmazonManager method used for adding credit type and amounts to customers
+     */
+  	public void addCreditToCustomer() {
+  	    String id = "";
+  	    int size = customers.size();
+  	    AmazonCustomer customer = null;
+  	    String typeOfCredit = "";
+  	    
+  	    while (true) {
+  	        try {
+  	            System.out.print("Enter the Customer ID: ");
+  	            id = input.nextLine();
+
+  	            if (!AmazonUtil.isValidInt(id)) {
+  	                throw new AmazonException("AmazonException: ID must be positive and an Integer!");
+  	            }
+  	            
+  	            int parsedInt = Integer.parseInt(id);
+  	            
+  	            for (int i = 0; i < size; i++) {
+  	                int customerId = customers.get(i).getId();
+  	                if (parsedInt == customerId) {
+  	                    customer = customers.get(i);
+  	                } else {
+  	                    throw new AmazonException("AmazonException: Customer not found, try a different ID!");
+  	                }
+  	            }
+  	            break;
+
+  	        } catch (AmazonException e) {
+  	            System.out.println(e.getLocalizedMessage());
+  	        }
+  	    }
+  	    
+  	  
+  	    while (true) {
+  	        try {
+  	            System.out.print("Enter the Type of credit ([1]: Cash, [2]: Check, [3]: Card): ");
+  	            typeOfCredit = input.nextLine();
+  	            
+  	            AmazonCredit newCredit = null;
+
+  	            switch (typeOfCredit) {
+  	                case "1":
+  	                    System.out.print("Enter Cash value: ");
+  	                    String cashAmount = input.nextLine();
+  	                    
+  	                    if (!AmazonUtil.isValidFloat(cashAmount)) {
+  	                        throw new AmazonException("AmazonException: Credit value must be positive!");
+  	                    }
+  	                    
+  	                    String[] cashData = {cashAmount};    
+  	                    newCredit = AmazonCash.createAmazonCash(cashData);
+  	                    break;
+
+  	                case "2":
+  	                    System.out.print("Enter Account Number: ");
+  	                    String accountNumber = input.nextLine();
+  	                    System.out.print("Enter Check value: ");
+  	                    String checkAmount = input.nextLine();
+  	                    
+  	                    if (!AmazonUtil.isValidFloat(checkAmount)) {
+  	                        throw new AmazonException("AmazonException: Credit value must be positive!");
+  	                    }
+  	                    
+  	                    String[] checkData = {accountNumber, checkAmount};  
+  	                    newCredit = AmazonCheck.createAmazonCheck(checkData); 
+  	                    break;
+
+  	                case "3":
+  	                    System.out.print("Enter Card Number: ");
+  	                    String cardNumber = input.nextLine();
+  	                    System.out.print("Enter Expiration Date (MM/YYYY): ");
+  	                    String expiration = input.nextLine();
+  	                    System.out.print("Enter Card value: ");
+  	                    String cardAmount = input.nextLine();  
+  	                    
+  	                    if (!AmazonUtil.isValidFloat(cardAmount)) {
+  	                        throw new AmazonException("AmazonException: Credit value must be positive!");
+  	                    }
+
+  	                    String[] cardData = {cardNumber, expiration, cardAmount}; 
+  	                    newCredit = AmazonCard.createAmazonCard(cardData);
+  	                    break;
+
+  	                default:
+  	                    throw new AmazonException("AmazonException: Invalid credit type selected!");
+  	            }
+
+  	            if (newCredit != null) {
+  	                customer.addCredits(newCredit);
+  	                System.out.println("Result: Credit added with success!");
+  	                break; 
+  	            }
+  	            
+  	        } catch (AmazonException e) {
+  	            System.out.println(e.getLocalizedMessage());
+  	        }
+  	    }
+  	}
+
+
+  	
+  	
   	
   	
 }

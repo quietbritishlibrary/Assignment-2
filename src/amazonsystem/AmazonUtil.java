@@ -103,7 +103,7 @@ public class AmazonUtil {
             return false; 
         }
         try {
-            return Float.parseFloat(str) < 0;
+            return Float.parseFloat(str) >= 0;
         } catch (NumberFormatException e) {
             return false;
         }
@@ -120,7 +120,7 @@ public class AmazonUtil {
             return false; 
         }
         try {
-            return Integer.parseInt(str) < 0;
+            return Integer.parseInt(str) >= 0;
         } catch (NumberFormatException e) {
             return false;
         }

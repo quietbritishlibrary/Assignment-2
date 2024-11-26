@@ -8,6 +8,7 @@ public class AmazonCash extends AmazonCredit{
      */
 	private AmazonCash(float myAmount) {
 		super(myAmount);
+		setType(PaymentType.Cash);
 	}
 	
 	/**
@@ -40,6 +41,12 @@ public class AmazonCash extends AmazonCredit{
 				return cash;
 		
 		}
+	
+	
+	@Override
+    public String toString() {
+        return super.toString();  
+    }
 	
 	
 	

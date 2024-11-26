@@ -1,5 +1,7 @@
 package amazonsystem;
 
+import amazonsystem.AmazonCredit.PaymentType;
+
 public class AmazonCheck extends AmazonCredit {
 	
 	private String accountNumber;
@@ -22,6 +24,7 @@ public class AmazonCheck extends AmazonCredit {
 	private AmazonCheck(String [] data) {
 		super(Float.parseFloat(data[1]));
 		this.accountNumber = data[0];
+		setType(PaymentType.Check);
 		
 	}
 	
