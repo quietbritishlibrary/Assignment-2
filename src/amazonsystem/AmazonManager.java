@@ -15,7 +15,7 @@ public class AmazonManager {
      
     // lists
     private List <AmazonProduct> products = new ArrayList<AmazonProduct>();
-	private List<AmazonCustomer> customers = new ArrayList<AmazonCustomer>();
+	private List <AmazonCustomer> customers = new ArrayList<AmazonCustomer>();
 	
 	// main
 	public static void main(String[] args) throws AmazonException {
@@ -180,10 +180,85 @@ public class AmazonManager {
   		productList.search(query);
   	}
   	
-  	// method for adding customer 
   	
-  	public void addCustomer() {
-  		
+  	/**
+     * AmazonManager method used for adding a customer NOTE: TEST FUNCTION FOR AVOIDING DUPLICATES
+     */
+  	public void addCustomer() throws AmazonException {
+  		    String id = "";
+  		    String name = "";
+  		    String address = "";
+  		    String [] data = {id,name,address};
+  		    int size = customers.size();
+  		    
+
+  		    while (true) {
+  		        try {
+  		            System.out.println("Enter the Customer ID: ");
+  		            id = input.nextLine();
+
+  		            if (!AmazonUtil.isValidInt(id)) {
+  		                throw new AmazonException("AmazonException: ID must be positive and an Integer!");
+  		            }
+  		            
+  		            int parsedInt = Integer.parseInt(id);
+  		            
+  		            for(int i = 0; i < size; i++) {
+  		            	int customerId = customers.get(i).getId();
+  		            	if(parsedInt == customerId) {
+  		            		throw new AmazonException("AmazonException: ID can't be a duplicate!");
+  		            	}
+  		            }
+  		            
+
+  		            break;
+
+  		        } catch (AmazonException e) {
+  		            System.out.println(e.getLocalizedMessage());
+  		        }
+  		    }
+
+  		    while (true) {
+  		        try {
+  		            System.out.println("Enter the Customer Name: ");
+  		            name = input.nextLine();
+
+  		            if (!AmazonUtil.isValidString(name)) {
+  		                throw new AmazonException("AmazonException: Customer name cannot be empty!");
+  		            }
+
+  		            break; 
+
+  		        } catch (AmazonException e) {  		     
+  		            System.out.println(e.getLocalizedMessage());
+  		        }
+  		    }
+
+  		    while (true) {
+  		        try {
+  		            System.out.println("Enter the Customer Address: ");
+  		            address = input.nextLine();
+
+  		            if (!AmazonUtil.isValidString(address)) {
+  		                throw new AmazonException("AmazonException: Customer address cannot be empty!");
+  		            }
+
+  		            break; 
+
+  		        } catch (AmazonException e) {
+  		            System.out.println(e.getLocalizedMessage());
+  		        }
+  		    }
+  		    
+  		    customers.add(AmazonCustomer.createAmazonCustomer(data));
+
+  	}
+  	
+  	public void showCustomers() {
+  		System.out.println("[Printing customers ...]");
+		for(AmazonCustomer c : customers) {
+			System.out.println(c);
+		}
   	}
   	
   	
