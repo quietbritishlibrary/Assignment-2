@@ -92,4 +92,49 @@ public class AmazonUtil {
         // Return the array containing all the values from the CSV line
         return str;
     }
+    
+    /**
+     * AmazonUtil method for checking if a string value is a valid (non-negative) float
+     * @param the string that is being checked
+     */
+    public static boolean isValidFloat(String str) {
+    	
+    	if (str == null) {
+            return false; 
+        }
+        try {
+            return Float.parseFloat(str) < 0;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+    
+    
+    /**
+     * AmazonUtil method for checking if a string value is a valid (non-negative) integer
+     * @param the string that is being checked
+     */
+    public static boolean isValidInt(String str) {
+    	
+    	if (str == null) {
+            return false; 
+        }
+        try {
+            return Integer.parseInt(str) < 0;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+    
+    /**
+     * AmazonUtil method for checking if a string value is a valid (non-null) String
+     * @param the string that is being checked
+     */
+    public static boolean isValidString(String str) {
+    	if(str == null || str.isBlank() || str.isEmpty()) {
+    		return false;
+    	}
+    	
+    	return true;
+    }
 }

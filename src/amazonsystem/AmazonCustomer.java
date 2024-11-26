@@ -145,6 +145,10 @@ public class AmazonCustomer {
 	    cart.getItems().add(item);
 	}
 	
+	public void removeProductFromCart(AmazonProduct product) {
+	
+	}
+	
 	/**
      * AmazonCustomer method for adding comments to the comments list
      * @param The AmazonComment the user wishes to add.
