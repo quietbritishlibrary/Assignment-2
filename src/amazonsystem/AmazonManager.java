@@ -69,17 +69,18 @@ public class AmazonManager {
 		manage.showWishList();
 		*/
 		
-		/* pay the cart
+		//pay the cart
 		manage.loadProductList(); 
 		manage.showProductList();
 		manage.addCustomer(); 
 		manage.showCustomers(); 
 		manage.addCreditToCustomer();
+		manage.addCreditToCustomer();
 		manage.showCreditFromCustomer();
 		manage.addProductInCart();
 		manage.showProductsInCart(); //needs some work
 		manage.payCart();
- 		*/
+ 		
 	}
 
 	
@@ -681,6 +682,7 @@ public class AmazonManager {
   	    String customerId = "";
   	    String productId = "";
   	    String quantity = "";
+  	    String comment = "";
   	    
   	  
   	    int customerSize = customers.size();
@@ -830,6 +832,8 @@ public class AmazonManager {
   		String customerId = "";
   	    int customerSize = customers.size();
   	    AmazonCustomer customer = null;
+  	    String typeOfCredit = "";
+  	    
   	    
   	    
   	    while (true) {
@@ -874,29 +878,158 @@ public class AmazonManager {
   	    System.out.println("Total amount: " + totalAmount);
 
   	  
-  	    System.out.println("Select the payment method [from 0 to 2]: ");
-  	    int paymentMethod = input.nextInt();
-  	    input.nextLine();  
+  	  while (true) {
+  	    try {
+  	        System.out.print("Enter the payment method ([1]: Cash, [2]: Check, [3]: Card): ");
+  	        typeOfCredit = input.nextLine();
+  	        int creditSize = customer.getCredits().size();
 
-  	    
-  	    if (paymentMethod == 0) {
-  	       
-  	        AmazonCredit credit = customer.getCredits().get(paymentMethod);
-  	       float total = credit.getAmount() - customer.getCart().calcSubTotal() ;
-  	        
-  	        
-  	        System.out.println("Customer credit updated: " + total);
+  	        switch (typeOfCredit) {
+  	            case "1":
+  	                for (int i = 0; i < creditSize; i++) {
+  	                    PaymentType creditType = customer.getCredits().get(i).getType();
+  	                    if (creditType == PaymentType.Cash) {
+  	                        AmazonCredit credit = customer.getCredits().get(i);
+  	                        System.out.println("Payment type is cash");
+  	                        float total = credit.getAmount() - customer.getCart().calcSubTotal();
+  	                        System.out.println("Customer credit updated: " + total);
+  	                        break;
+  	                    }
+  	                }
+  	                break;
+  	                
 
-  	      
+  	            case "2":
+  	            	for (int i = 0; i < creditSize; i++) {
+  	                    PaymentType creditType = customer.getCredits().get(i).getType();
+  	                    if (creditType == PaymentType.Check) {
+  	                        AmazonCredit credit = customer.getCredits().get(i);
+  	                        System.out.println("Payment type is check");
+  	                        float total = credit.getAmount() - customer.getCart().calcSubTotal();
+  	                        System.out.println("Customer credit updated: " + total);
+  	                        break;
+  	                    }
+  	                }
+  	            	break;
+
+  	            case "3":
+  	            	for (int i = 0; i < creditSize; i++) {
+  	                    PaymentType creditType = customer.getCredits().get(i).getType();
+  	                    if (creditType == PaymentType.Card) {
+  	                        AmazonCredit credit = customer.getCredits().get(i);
+  	                        System.out.println("Payment type is card");
+  	                        float total = credit.getAmount() - customer.getCart().calcSubTotal();
+  	                        System.out.println("Customer credit updated: " + total);
+  	                        break;
+  	                    }
+  	                }
+  	            	break;
+
+  	            default:
+  	                throw new AmazonException("AmazonException: Invalid credit type selected!");
+  	        }
+
   	        
-  	        System.out.println("Cart empty - you can comment products now.");
-  	    } else {
-  	        System.out.println("Invalid payment method.");
+
+  	    } catch (AmazonException e) {
+  	        System.out.println(e.getLocalizedMessage());
+
   	    }
-  	}
+  	    
+  	    break;
+  	    
+  	
+  	  }
+  	  System.out.println("Cart empty - you can comment products now.");
 
+  	}
   	
-  	
-  	
-  	
+  	public void addCommentToProduct() {
+  		 String customerId = "";
+   	    String productId = "";
+   	    int customerSize = customers.size();
+   	    int productSize = products.size();
+   	    AmazonCustomer customer = null;
+   	    AmazonProduct product = null;
+   	    String comment = "";
+   	    String rating = "";
+
+   	    while (true) {
+   	        try {
+   	            
+   	            System.out.print("Enter the Customer ID: ");
+   	            customerId = input.nextLine();
+
+   	            if (!AmazonUtil.isValidInt(customerId)) {
+   	                throw new AmazonException("AmazonException: ID must be positive and an Integer!");
+   	            }
+
+   	            int parsedCustomerId = Integer.parseInt(customerId);
+
+   	           
+   	            for (AmazonCustomer c : customers) {
+   	                int currentCustomerId = c.getId();
+   	                if (parsedCustomerId == currentCustomerId) {
+   	                    customer = c;
+   	                    break;
+   	                }
+   	            }
+
+   	          
+   	            if (customer == null) {
+   	                throw new AmazonException("AmazonException: Customer not found, try a different ID!");
+   	            }
+   	            break;
+
+   	        } catch (AmazonException e) {
+   	            System.out.println(e.getLocalizedMessage());
+   	        }
+   	    }
+
+   	
+   	    while (true) {
+   	        try {
+   	           
+   	            System.out.print("Enter the Product ID to remove from the Cart: ");
+   	            productId = input.nextLine();
+
+   	            if (!AmazonUtil.isValidInt(productId)) {
+   	                throw new AmazonException("AmazonException: ID must be positive and an Integer!");
+   	            }
+
+   	            int parsedProductId = Integer.parseInt(productId);
+
+   	         
+   	            for (AmazonProduct p : products) {
+   	                int currentProductId = p.getId();
+   	                if (parsedProductId == currentProductId) {
+   	                    product = p;
+   	                    break;
+   	                }
+   	            }
+
+   	        
+   	            if (product == null) {
+   	                throw new AmazonException("AmazonException: Product not found, try a different ID!");
+   	            }
+   	            break;
+
+   	        } catch (AmazonException e) {
+   	            System.out.println(e.getLocalizedMessage());
+   	        }
+   	    }
+   	    
+   	    System.out.println("Commenting product: [" + product.getName()   + "] ..."); //display chosen product
+   	    System.out.print("Enter the comment: ");
+   	    comment = input.nextLine();
+   	    
+   	    System.out.println("Enter the stars: ");
+   	    rating = input.nextLine();
+   	    
+  		
+  	}
 }
+
+
+
+
