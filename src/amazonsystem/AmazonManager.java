@@ -22,80 +22,23 @@ public class AmazonManager {
 	// main
 	public static void main(String[] args) throws AmazonException {
 		AmazonManager manage = new AmazonManager();
+		manage.manageAmazonSystem();
 		
-		/*
-		manage.loadProductList(); 
-		manage.showProductList(); 
-		//manage.searchInProducts(); works
-		manage.addCustomer(); 
-		manage.showCustomers(); 
-		manage.addCreditToCustomer();
-		manage.showCreditFromCustomer();
-		//manage.addProductInWishList();
-		//manage.showWishList();
-		manage.addProductInCart();
-		manage.showProductsInCart(); //needs some work
-		manage.payCart();
-		*/
-		
-		
-		/* 
-		manage.addCustomer(); 
-		manage.showCustomers(); 
-		*/
-		
-		/* create credits
-		manage.addCustomer(); 
-		manage.showCustomers(); 
-		manage.addCreditToCustomer();
-		manage.showCreditFromCustomer();
-		*/
-		
-		/*add products in cart
-		manage.loadProductList(); 
-		manage.showProductList(); 
-		manage.addCustomer(); 
-		manage.showCustomers();
-		manage.addProductInCart();
-		manage.showProductsInCart();
-		*/
-		
-		/* add product in wishlist
-		manage.loadProductList(); 
-		manage.showProductList(); 
-		manage.addCustomer(); 
-		manage.showCustomers(); 
-		manage.addProductInWishList();
-		manage.showWishList();
-		*/
-		
-		//pay the cart
-		manage.loadProductList(); 
-		manage.showProductList();
-		manage.addCustomer(); 
-		manage.showCustomers(); 
-		manage.addCreditToCustomer();
-		manage.addCreditToCustomer();
-		manage.showCreditFromCustomer();
-		manage.addProductInCart();
-		manage.showProductsInCart(); //needs some work
-		manage.payCart();
- 		
 	}
 
 	
-	public void manageProductList() throws AmazonException {
+	public void manageAmazonSystem() throws AmazonException {
 
 		AmazonManager use = new AmazonManager();
-		int option = -1;
-		// Main loop for interacting with the user until they choose to exit
-		while (option != 0) {
-			option = -1;
+		String option = "";
+		try{// Main loop for interacting with the user until they choose to exit
+		while (!option.equals("Q")) {
 			use.showMenu();
+			//System.out.print("                              Choose an option: ");
 
 			try {
 
-				option = Integer.parseInt(input.nextLine().replace(" ", ""));
+				option = input.nextLine().toUpperCase();
 
 			} catch (Exception e) {
 				
@@ -105,36 +48,66 @@ public class AmazonManager {
 			// Handle the user selection based on menu choice
 			switch (option) {
 			
-			case 0:
-				use.exit();
+			case "A":
+				use.loadProductList();;
 				break;
-			case 1:
-				use.createProduct();
-				break;
-			case 2:
+			case "B":
 				use.showProductList();
 				break;
-			case 3:
-				use.loadProductList();
+			case "C":
+				use.searchInProducts();;
 				break;
-			case 4:
-				use.editProduct();
+			case "D":
+				use.addCustomer();
 				break;
-			case 5:
-				use.deleteProduct();
+			case "E":
+				use.showCustomers();
 				break;
-			case 6:
-				use.saveProductList();
+			case "F":
+				use.addCreditToCustomer();
 				break;
-			case 7:
-				use.search();
+			case "G":
+				use.showCreditFromCustomer();
 				break;
+			case "H":
+				use.addProductInWishList();
+				break;
+			case "I":
+				use.removeProductFromWishlist();
+				break;
+			case "J":
+				use.showWishList();
+				break;
+			case "K":
+				use.addProductInCart();
+				break;
+			case "L":
+				//use.removeProductFromCart();
+				break;	
+			case "M":
+				use.showProductsInCart();
+				break;
+			case "N":
+				use.payCart();
+				break;
+			case "O":
+				use.addCommentToProduct();
+				break;
+			case "P":
+				use.showComments();
+				break;
+			case "Q":
+				use.exit();
+				break;	
 			default:
 				
-				System.out.println("AmazonProductException: Invalid input - type a number between 0 and 7");
+				throw new AmazonException("AmazonException: Invalid input - type a letter from A - Q!");
 				
 			}
+		}
 
+		}catch(AmazonException e) {
+			System.out.println(e.getLocalizedMessage());
 		}
 	}
 	
@@ -145,7 +118,7 @@ public class AmazonManager {
      * AmazonManager method used to display the menu
      */
 	public void showMenu() {
-		System.out.println("===========================================================================\n" +
+		System.out.print("===========================================================================\n" +
                 "||  ****   ****        ****   ****  ****              ALGONQUIN COLLEGE  ||\n" +
                 "|| **  ** **     **   **  ** **  ** ** **            COURSE: OOP/CST8152 ||\n" +
                 "|| ****** **     **   **  ** **  ** ****                 PROF: PAULO     ||\n" +
@@ -169,12 +142,14 @@ public class AmazonManager {
                 "||                                  || Comment options ................. ||\n" +
                 "|| ................................ || [O] Comment products bought       ||\n" +
                 "||             [Q] Exit             || [P] List comments from products   ||\n" +
-                "===========================================================================\n");
+                "===========================================================================\n"+
+                "                            Choose an option: "); 
 	}
 	
 	public void exit() {
-		System.out.println("================================ \n" + "||    [Application ended]     || \n"
-				+ "================================");
+		System.out.println("===========================================================================");
+		System.out.println("||              [End of Application (Authors: David Jacob)]              ||");
+		System.out.print("===========================================================================");	
 	}
 	
 	//load products from CSV onto the products list
@@ -1020,14 +995,65 @@ public class AmazonManager {
    	    }
    	    
    	    System.out.println("Commenting product: [" + product.getName()   + "] ..."); //display chosen product
-   	    System.out.print("Enter the comment: ");
-   	    comment = input.nextLine();
    	    
-   	    System.out.println("Enter the stars: ");
-   	    rating = input.nextLine();
+   	    System.out.print("Enter the comment: "); // prompt for comment
+   	    comment = input.nextLine(); // assign entered comment
+   	    
+   	    System.out.println("Enter the stars: "); // prompt rating
+   	    rating = input.nextLine(); // assign entered rating
+   	    
+   	    float ratingFloat = Float.parseFloat(rating);
+   	    
+   	    customer.setComment(product, comment, ratingFloat);
+   	    
+   	    System.out.println("Comment form customer - Customer: " +  "[" + customer.getId() + "], [Name: " + customer.getName() + "], . . .");
    	    
   		
   	}
+  	
+  	public void showComments() {
+  		 String customerId = "";
+    	    String productId = "";
+    	    int customerSize = customers.size();
+    	    AmazonCustomer customer = null;
+    	   
+
+    	    while (true) {
+    	        try {
+    	            
+    	            System.out.print("Enter the Customer ID: ");
+    	            customerId = input.nextLine();
+
+    	            if (!AmazonUtil.isValidInt(customerId)) {
+    	                throw new AmazonException("AmazonException: ID must be positive and an Integer!");
+    	            }
+
+    	            int parsedCustomerId = Integer.parseInt(customerId);
+
+    	           
+    	            for (AmazonCustomer c : customers) {
+    	                int currentCustomerId = c.getId();
+    	                if (parsedCustomerId == currentCustomerId) {
+    	                    customer = c;
+    	                    break;
+    	                }
+    	            }
+
+    	          
+    	            if (customer == null) {
+    	                throw new AmazonException("AmazonException: Customer not found, try a different ID!");
+    	            }
+    	            break;
+
+    	        } catch (AmazonException e) {
+    	            System.out.println(e.getLocalizedMessage());
+    	        }
+    	    }
+    	    
+    	    customer.showComments();
+  	}
+  	
+  	
 }
 
 
