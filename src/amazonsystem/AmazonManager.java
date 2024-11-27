@@ -22,12 +22,15 @@ public class AmazonManager {
 	// main
 	public static void main(String[] args) throws AmazonException {
 		AmazonManager manage = new AmazonManager();
-		//manage.loadProductList(); works
-		//manage.showProductList(); works
+		manage.loadProductList(); 
+		manage.showProductList(); 
 		//manage.searchInProducts(); works
 		manage.addCustomer(); 
 		manage.showCustomers(); 
-		manage.addCreditToCustomer();
+		//manage.addCreditToCustomer();
+		//manage.showCreditFromCustomer();
+		manage.addProductInWishList();
+		manage.showWishList();
 
 	}
 
@@ -139,7 +142,9 @@ public class AmazonManager {
 					file = "src\\amazonsystem\\Sample-Amazon-Products-v2.csv";
 					isValid = false;
 				}
-				productList.createList(file);
+				
+				products.addAll(productList.createList(file));
+				
 				
 				System.out.println("product loaded!");
 				
@@ -293,11 +298,15 @@ public class AmazonManager {
   	                int customerId = customers.get(i).getId();
   	                if (parsedInt == customerId) {
   	                    customer = customers.get(i);
-  	                } else {
-  	                    throw new AmazonException("AmazonException: Customer not found, try a different ID!");
-  	                }
+  	                    break; // customer found now leave for loop
+  	                } 
   	            }
-  	            break;
+  	            
+  	            if(customer == null) { // check if customer is null
+  	            	throw new AmazonException("AmazonException: Customer not found, try a different ID!");
+  	            }
+  	            
+  	            break; // customer found now leave while loop
 
   	        } catch (AmazonException e) {
   	            System.out.println(e.getLocalizedMessage());
@@ -370,6 +379,257 @@ public class AmazonManager {
   	        }
   	    }
   	}
+  	
+  	/**
+     * AmazonManager method used to show the customers different credits
+     */
+  	public void showCreditFromCustomer() {
+  		String id = "";
+  	    int size = customers.size();
+  	    AmazonCustomer customer = null;
+  	    
+  	    while (true) {
+  	        try {
+  	            System.out.print("Enter the Customer ID: ");
+  	            id = input.nextLine();
+
+  	            if (!AmazonUtil.isValidInt(id)) {
+  	                throw new AmazonException("AmazonException: ID must be positive and an Integer!");
+  	            }
+  	            
+  	            int parsedInt = Integer.parseInt(id);
+  	            
+  	            for (int i = 0; i < size; i++) {
+  	                int customerId = customers.get(i).getId();
+  	                if (parsedInt == customerId) {
+  	                    customer = customers.get(i);
+  	                    break;
+  	                } 
+
+  	            }
+  	            
+  	            if(customer == null) {
+                throw new AmazonException("AmazonException: Customer not found, try a different ID!");
+                }
+  	        
+  	            break;
+
+  	        } catch (AmazonException e) {
+  	            System.out.println(e.getLocalizedMessage());
+  	        }
+  	    }
+  	    
+  	    customer.showCredits();
+  	}
+  	
+  	/**
+     * AmazonManager method used to add products to the wishlist
+     */
+  	public void addProductInWishList() {
+  	    String customerId = "";
+  	    String productId = "";
+  	    int customerSize = customers.size();
+  	    int productSize = products.size();
+  	    AmazonCustomer customer = null;
+  	    AmazonProduct product = null;
+
+  	    while (true) {
+  	        try {
+  	            System.out.print("Enter the Customer ID: ");
+  	            customerId = input.nextLine();
+
+  	            if (!AmazonUtil.isValidInt(customerId)) {
+  	                throw new AmazonException("AmazonException: ID must be positive and an Integer!");
+  	            }
+
+  	            int parsedInt = Integer.parseInt(customerId);
+
+  	            for (int i = 0; i < customerSize; i++) {
+  	                int currentId = customers.get(i).getId();
+  	                if (parsedInt == currentId) {
+  	                    customer = customers.get(i);
+  	                    break; // stop loop once right ID found
+  	                }
+  	            }
+
+  	            if (customer == null) {
+  	                throw new AmazonException("AmazonException: Customer not found, try a different ID!");
+  	            }
+  	            break; // break once we're sure the customer isn't null
+
+  	        } catch (AmazonException e) {
+  	            System.out.println(e.getLocalizedMessage());
+  	        }
+  	    }
+
+  	    
+  	    while (true) {
+  	        try {
+  	            System.out.print("Enter the Product ID to include in the Wishlist: ");
+  	            productId = input.nextLine();
+
+  	            if (!AmazonUtil.isValidInt(productId)) {
+  	                throw new AmazonException("AmazonException: ID must be positive and an Integer!");
+  	            }
+
+  	            int parsedInt = Integer.parseInt(productId);
+
+  	            
+  	            for (int i = 0; i < productSize; i++) {
+  	                int currentId = products.get(i).getId();
+  	                if (parsedInt == currentId) {
+  	                    product = products.get(i);
+  	                    break; 
+  	                }
+  	            }
+
+  	            
+  	            if (product == null) {
+  	                throw new AmazonException("AmazonException: Product not found, try a different ID!");
+  	            }
+
+  	            
+  	            customer.addProductInWishList(product);
+  	            System.out.println("[Product " + product.getId() + " added into customer " + customer.getId() + " wishlist]");
+
+  	            break; 
+
+  	        } catch (AmazonException e) {
+  	            System.out.println(e.getLocalizedMessage());
+  	        }
+  	    }
+  	}
+
+  	
+  	/**
+     * AmazonManager method used to remove products from the wishlist
+     */
+  	public void removeProductFromWishlist() {
+  	    String customerId = "";
+  	    String productId = "";
+  	    int customerSize = customers.size();
+  	    int productSize = products.size();
+  	    AmazonCustomer customer = null;
+  	    AmazonProduct product = null;
+
+  	    while (true) {
+  	        try {
+  	            
+  	            System.out.print("Enter the Customer ID: ");
+  	            customerId = input.nextLine();
+
+  	            if (!AmazonUtil.isValidInt(customerId)) {
+  	                throw new AmazonException("AmazonException: ID must be positive and an Integer!");
+  	            }
+
+  	            int parsedCustomerId = Integer.parseInt(customerId);
+
+  	           
+  	            for (int i = 0; i < customerSize; i++) {
+  	                int currentCustomerId = customers.get(i).getId();
+  	                if (parsedCustomerId == currentCustomerId) {
+  	                    customer = customers.get(i);
+  	                    break;
+  	                }
+  	            }
+
+  	          
+  	            if (customer == null) {
+  	                throw new AmazonException("AmazonException: Customer not found, try a different ID!");
+  	            }
+  	            break;
+
+  	        } catch (AmazonException e) {
+  	            System.out.println(e.getLocalizedMessage());
+  	        }
+  	    }
+
+  	
+  	    while (true) {
+  	        try {
+  	           
+  	            System.out.print("Enter the Product ID to remove from the Cart: ");
+  	            productId = input.nextLine();
+
+  	            if (!AmazonUtil.isValidInt(productId)) {
+  	                throw new AmazonException("AmazonException: ID must be positive and an Integer!");
+  	            }
+
+  	            int parsedProductId = Integer.parseInt(productId);
+
+  	         
+  	            for (int i = 0; i < productSize; i++) {
+  	                int currentProductId = products.get(i).getId();
+  	                if (parsedProductId == currentProductId) {
+  	                    product = products.get(i);
+  	                    break;
+  	                }
+  	            }
+
+  	        
+  	            if (product == null) {
+  	                throw new AmazonException("AmazonException: Product not found, try a different ID!");
+  	            }
+  	            break;
+
+  	        } catch (AmazonException e) {
+  	            System.out.println(e.getLocalizedMessage());
+  	        }
+  	    }
+
+  	    
+  	     	customer.removeProductFromWishList(product);
+  	     	System.out.println("[Product " + product.getId() + " removed from wishlist from " + customer.getId() + " ]");
+  	   
+  	}
+  	
+  	/**
+     * AmazonManager method used to printing contents of a customers wishlist
+     */
+  	public void showWishList() {
+  		String customerId = "";
+  	    int customerSize = customers.size();
+  	    AmazonCustomer customer = null;
+
+  	    while (true) {
+  	        try {
+  	            
+  	            System.out.print("Enter the Customer ID: ");
+  	            customerId = input.nextLine();
+
+  	            if (!AmazonUtil.isValidInt(customerId)) {
+  	                throw new AmazonException("AmazonException: ID must be positive and an Integer!");
+  	            }
+
+  	            int parsedCustomerId = Integer.parseInt(customerId);
+
+  	           
+  	            for (int i = 0; i < customerSize; i++) {
+  	                int currentCustomerId = customers.get(i).getId();
+  	                if (parsedCustomerId == currentCustomerId) {
+  	                    customer = customers.get(i);
+  	                    break;
+  	                }
+  	            }
+
+  	          
+  	            if (customer == null) {
+  	                throw new AmazonException("AmazonException: Customer not found, try a different ID!");
+  	            }
+  	            break;
+
+  	        } catch (AmazonException e) {
+  	            System.out.println(e.getLocalizedMessage());
+  	        }
+  	    }
+  	    
+  	    customer.showWishList();
+
+  		
+  	}
+
+  	
+  	
 
 
   	

@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -18,14 +19,14 @@ public class AmazonProductList {
     private ArrayList<String> DEFAULT_TITLE = new ArrayList<>();
 
     // List to store the best-selling Amazon products
-    private ArrayList<AmazonProduct> bestsellers = new ArrayList<AmazonProduct>();
+    private ArrayList<AmazonProduct> products = new ArrayList<AmazonProduct>();
 
     /**
      * Creates a list of products by reading data from a CSV file.
      * @param csvFile The path to the CSV file
      * @throws AmazonProductException If there is an issue reading the file
      */
-    public void createList(String csvFile) throws AmazonException { 
+    public List<AmazonProduct> createList(String csvFile) throws AmazonException { 
         
         try(BufferedReader reader = new BufferedReader(new FileReader(csvFile));) {
             // Read the first line to get the column headers and store it as the default title
@@ -41,7 +42,7 @@ public class AmazonProductList {
                 data = AmazonUtil.lineReader(line, 0);    
                 // Create a new AmazonProduct object and add it to the bestsellers list
                 AmazonProduct product = new AmazonProduct(data);                
-                bestsellers.add(product);
+                products.add(product);
                 line = reader.readLine(); // Read the next line
             }
             
@@ -52,6 +53,8 @@ public class AmazonProductList {
             // Handle other IO exceptions
             throw new AmazonException("File not found! " +  e.getMessage());
         }  
+        
+        return products;
     }
     
     /**
@@ -60,14 +63,14 @@ public class AmazonProductList {
      */
     
     public void printList() {
-        if(bestsellers.isEmpty()) {
+        if(products.isEmpty()) {
             // Inform the user if the list is empty
             System.out.println("List is empty! Load a product list to view.");
         } else {
             // Print the default title (headers)
             System.out.println(DEFAULT_TITLE);
             // Print each product's details
-            for(AmazonProduct product : bestsellers) {
+            for(AmazonProduct product : products) {
                 System.out.println(product);
             }
         }

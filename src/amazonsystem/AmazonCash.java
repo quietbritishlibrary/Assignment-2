@@ -17,6 +17,7 @@ public class AmazonCash extends AmazonCredit{
      */
 	private AmazonCash(String[] data) {
 		super(Float.parseFloat(data[0]));
+		setType(PaymentType.Cash);
 	}
 	
 	/**

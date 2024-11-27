@@ -14,6 +14,7 @@ public class AmazonCheck extends AmazonCredit {
 	private AmazonCheck(String myAccountNumber, float myAmount ) {
 		super(myAmount);
 		accountNumber = myAccountNumber;
+		setType(PaymentType.Check);
 	}
 	
 
@@ -58,7 +59,10 @@ public class AmazonCheck extends AmazonCredit {
 		
 		}
 
-
+	@Override
+    public String toString() {
+        return super.toString();  
+    }
 	
 	//getters and setters
 	

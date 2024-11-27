@@ -9,8 +9,10 @@ public class AmazonCard extends AmazonCredit {
 	private String expiration;
 	
 	/**
-     * AmazonCard parameterized-constructor
-     * @param The card number, expiration date and total balance.
+     * AmazonCard parameterized constructor
+     * @param myNumber - card number
+     * @param myExpiration - expiration date (MM/YYYY)
+     * @param myAmount - the amount on the card
      */
 	private AmazonCard(String myNumber, String myExpiration, float myAmount ) {
 		super(myAmount);
@@ -28,6 +30,7 @@ public class AmazonCard extends AmazonCredit {
 		super(Float.parseFloat(data[2]));
 		String number = data[0];
 		String expiration = data[1];
+		setType(PaymentType.Card);
 	}
 	
 	
@@ -41,19 +44,17 @@ public class AmazonCard extends AmazonCredit {
 	
 	public static AmazonCard createAmazonCard(String [] data) {
 		   
-		   if(data == null) {
+		   if(data == null || data.length != 3) {
 			   return null;
 			   
-		   } else if(data.length != 3) {
-			   return null;
-		   }
+		   } 
 		   
 		   		
 		        float amount = Float.parseFloat(data[2]);
 				String number = data[0];
 				String expiration = data[1];
 				
-				if(number.isBlank() || number.isEmpty() || expiration.isBlank() || expiration.isEmpty()) {
+				if(number.isBlank() || number.isEmpty() || expiration.isBlank() || expiration.isEmpty() || amount < 0) {
 					return null;
 				}
 				
@@ -64,6 +65,11 @@ public class AmazonCard extends AmazonCredit {
 				return card;
 		
 		}
+	
+	@Override
+    public String toString() {
+        return super.toString();  
+    }
 	
 	
 	//getters and setters
