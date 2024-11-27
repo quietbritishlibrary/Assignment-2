@@ -22,16 +22,64 @@ public class AmazonManager {
 	// main
 	public static void main(String[] args) throws AmazonException {
 		AmazonManager manage = new AmazonManager();
+		
+		/*
 		manage.loadProductList(); 
 		manage.showProductList(); 
 		//manage.searchInProducts(); works
 		manage.addCustomer(); 
 		manage.showCustomers(); 
-		//manage.addCreditToCustomer();
-		//manage.showCreditFromCustomer();
+		manage.addCreditToCustomer();
+		manage.showCreditFromCustomer();
+		//manage.addProductInWishList();
+		//manage.showWishList();
+		manage.addProductInCart();
+		manage.showProductsInCart(); //needs some work
+		manage.payCart();
+		*/
+		
+		
+		/* 
+		manage.addCustomer(); 
+		manage.showCustomers(); 
+		*/
+		
+		/* create credits
+		manage.addCustomer(); 
+		manage.showCustomers(); 
+		manage.addCreditToCustomer();
+		manage.showCreditFromCustomer();
+		*/
+		
+		/*add products in cart
+		manage.loadProductList(); 
+		manage.showProductList(); 
+		manage.addCustomer(); 
+		manage.showCustomers();
+		manage.addProductInCart();
+		manage.showProductsInCart();
+		*/
+		
+		/* add product in wishlist
+		manage.loadProductList(); 
+		manage.showProductList(); 
+		manage.addCustomer(); 
+		manage.showCustomers(); 
 		manage.addProductInWishList();
 		manage.showWishList();
-
+		*/
+		
+		/* pay the cart
+		manage.loadProductList(); 
+		manage.showProductList();
+		manage.addCustomer(); 
+		manage.showCustomers(); 
+		manage.addCreditToCustomer();
+		manage.showCreditFromCustomer();
+		manage.addProductInCart();
+		manage.showProductsInCart(); //needs some work
+		manage.payCart();
+ 		*/
 	}
 
 	
@@ -623,14 +671,229 @@ public class AmazonManager {
   	        }
   	    }
   	    
+        System.out.println("Printing wishlist ..............");
   	    customer.showWishList();
 
   		
   	}
-
   	
-  	
+  	public void addProductInCart() {
+  	    String customerId = "";
+  	    String productId = "";
+  	    String quantity = "";
+  	    
+  	  
+  	    int customerSize = customers.size();
+  	    int productSize = products.size();
+  	    
+  	    AmazonCustomer customer = null;
+  	    AmazonProduct product = null;
+  	    
+  	    // Get the Customer
+  	    while (true) {
+  	        try {
+  	            System.out.print("Enter the Customer ID: ");
+  	            customerId = input.nextLine();
 
+  	            if (!AmazonUtil.isValidInt(customerId)) {
+  	                throw new AmazonException("AmazonException: ID must be positive and an Integer!");
+  	            }
+
+  	            int parsedCustomerId = Integer.parseInt(customerId);
+  	            boolean customerFound = false;
+
+  	            for (int i = 0; i < customerSize; i++) {
+  	                int currentId = customers.get(i).getId();
+  	                if (parsedCustomerId == currentId) {
+  	                    customer = customers.get(i);
+  	                    customerFound = true;
+  	                    break;
+  	                }
+  	            }
+
+  	            if (!customerFound) {
+  	                throw new AmazonException("AmazonException: Customer not found, try a different ID!");
+  	            }
+
+  	            break;  // Exit loop after finding the customer
+
+  	        } catch (AmazonException e) {
+  	            System.out.println(e.getLocalizedMessage());
+  	        }
+  	    }
+
+  	    // Get the Product
+  	    while (true) {
+  	        try {
+  	            System.out.print("Enter the Product ID to buy from your cart: ");
+  	            productId = input.nextLine();
+
+  	            if (!AmazonUtil.isValidInt(productId)) {
+  	                throw new AmazonException("AmazonException: ID must be positive and an Integer!");
+  	            }
+
+  	            int parsedProductId = Integer.parseInt(productId);
+  	            boolean productFound = false;
+
+  	            for (int i = 0; i < productSize; i++) {
+  	                int currentProductId = products.get(i).getId();
+  	                if (parsedProductId == currentProductId) {
+  	                    product = products.get(i);
+  	                    productFound = true;
+  	                    break;
+  	                }
+  	            }
+
+  	            if (!productFound) {
+  	                throw new AmazonException("AmazonException: Product not found, try a different ID!");
+  	            }
+
+  	            break;  // Exit loop after finding the product
+
+  	        } catch (AmazonException e) {
+  	            System.out.println(e.getLocalizedMessage());
+  	        }
+  	    }
+
+  	    // Get the Quantity of Product to be added to Cart
+  	    while (true) {
+  	        try {
+  	            System.out.print("Enter the number of items to put in cart: ");
+  	            quantity = input.nextLine();
+
+  	            if (!AmazonUtil.isValidInt(quantity)) {
+  	                throw new AmazonException("AmazonException: Quantity must be a positive integer!");
+  	            }
+
+  	            int quantityInt = Integer.parseInt(quantity);
+
+  	            if (quantityInt <= 0) {
+  	                throw new AmazonException("AmazonException: Quantity must be greater than zero!");
+  	            }
+
+  	            // Create the AmazonCartItem and add it to the customer's cart
+  	            AmazonCartItem cartItem = new AmazonCartItem(product, quantityInt);
+  	            customer.addItemInCart(cartItem);  
+
+  	            System.out.println("Cart updated: [" + quantityInt + " of " + product.getId() + " added for customer " + customer.getId() + "]");
+
+  	            break;  // Exit the loop after successfully adding to cart
+
+  	        } catch (AmazonException e) {
+  	            System.out.println(e.getLocalizedMessage());
+  	        }
+  	    }
+  	}
+
+
+  	public void showProductsInCart() {
+  	    String customerId = "";
+  	    int customerSize = customers.size();
+  	    AmazonCustomer customer = null;
+  	    
+  	    
+  	    while (true) {
+  	        try {
+  	            System.out.print("Enter the Customer id: ");
+  	            customerId = input.nextLine();
+
+  	            if (!AmazonUtil.isValidInt(customerId)) {
+  	                throw new AmazonException("AmazonException: ID must be positive and an Integer!");
+  	            }
+
+  	            int parsedInt = Integer.parseInt(customerId);
+
+  	           
+  	            for (int i = 0; i < customerSize; i++) {
+  	                int currentId = customers.get(i).getId();
+  	                if (parsedInt == currentId) {
+  	                    customer = customers.get(i);
+  	                }
+  	            }
+
+  	            if (customer == null) {
+  	                throw new AmazonException("AmazonException: Customer not found!");
+  	            }
+
+  	            break;
+
+  	        } catch (AmazonException e) {
+  	            System.out.println(e.getLocalizedMessage());
+  	        }
+  	    }
+  	    
+  	    customer.showCart();
+  	
+  	}
+  	
+  	public void payCart() {
+  		String customerId = "";
+  	    int customerSize = customers.size();
+  	    AmazonCustomer customer = null;
+  	    
+  	    
+  	    while (true) {
+  	        try {
+  	            System.out.print("Enter the Customer id: ");
+  	            customerId = input.nextLine();
+
+  	            if (!AmazonUtil.isValidInt(customerId)) {
+  	                throw new AmazonException("AmazonException: ID must be positive and an Integer!");
+  	            }
+
+  	            int parsedInt = Integer.parseInt(customerId);
+
+  	           
+  	            for (int i = 0; i < customerSize; i++) {
+  	                int currentId = customers.get(i).getId();
+  	                if (parsedInt == currentId) {
+  	                    customer = customers.get(i);
+  	                }
+  	            }
+
+  	            if (customer == null) {
+  	                throw new AmazonException("AmazonException: Customer not found!");
+  	            }
+
+  	            break;
+
+  	        } catch (AmazonException e) {
+  	            System.out.println(e.getLocalizedMessage());
+  	        }
+  	    }
+
+  	  
+  	    AmazonCart cart = customer.getCart(); // Assuming the customer has a cart now
+  	    if (cart == null || cart.getItems().isEmpty()) {
+  	        System.out.println("Cart is empty. You cannot pay for an empty cart.");
+  	        return;
+  	    }
+
+  	    
+  	    float totalAmount = cart.calcSubTotal();
+  	    System.out.println("Total amount: " + totalAmount);
+
+  	  
+  	    System.out.println("Select the payment method [from 0 to 2]: ");
+  	    int paymentMethod = input.nextInt();
+  	    input.nextLine();  
+
+  	    
+  	    if (paymentMethod == 0) {
+  	       
+  	        AmazonCredit credit = customer.getCredits().get(paymentMethod);
+  	       float total = credit.getAmount() - customer.getCart().calcSubTotal() ;
+  	        
+  	        
+  	        System.out.println("Customer credit updated: " + total);
+
+  	      
+  	        
+  	        System.out.println("Cart empty - you can comment products now.");
+  	    } else {
+  	        System.out.println("Invalid payment method.");
+  	    }
+  	}
 
   	
   	

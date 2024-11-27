@@ -11,9 +11,12 @@ public class AmazonCustomer {
 	private int id;
 	private String name;
 	private String address;
+	
 	private List <AmazonComment> comments = new ArrayList <AmazonComment>();
 	private List <AmazonProduct> wishlist = new ArrayList <AmazonProduct>();
 	private List <AmazonCredit> credits = new ArrayList <AmazonCredit>();
+	
+	private AmazonCart cart;
 	
 
 	/**
@@ -27,6 +30,7 @@ public class AmazonCustomer {
 		this.comments = new ArrayList<AmazonComment>();
         this.wishlist = new ArrayList<AmazonProduct>();
         this.credits = new ArrayList<AmazonCredit>();
+        this.cart = new AmazonCart(this);
 	}
 	
 	/**
@@ -37,6 +41,7 @@ public class AmazonCustomer {
 		this.id = Integer.parseInt(data[0]);
 		this.name = data[1];
 		this.address = data[2];
+		this.cart = new AmazonCart(this);
 	}
 	
 
@@ -140,12 +145,17 @@ public class AmazonCustomer {
      * @param the item that the customer wishes to add.
      */
 	public void addItemInCart(AmazonCartItem item) {
-		AmazonCart cart = new AmazonCart(this);
 	    cart.getItems().add(item);
 	}
 	
 	public void removeProductFromCart(AmazonProduct product) {
 	
+	}
+	
+	public void showCart() {
+		
+		AmazonCart cart = getCart(); 
+		System.out.println(cart);	
 	}
 	
 	/**
@@ -217,6 +227,39 @@ public class AmazonCustomer {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	
 
+	public AmazonCart getCart() {
+		return cart;
+	}
+
+	public void setCart(AmazonCart cart) {
+		this.cart = cart;
+	}
+
+	public List<AmazonComment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<AmazonComment> comments) {
+		this.comments = comments;
+	}
+
+	public List<AmazonProduct> getWishlist() {
+		return wishlist;
+	}
+
+	public void setWishlist(List<AmazonProduct> wishlist) {
+		this.wishlist = wishlist;
+	}
+
+	public List<AmazonCredit> getCredits() {
+		return credits;
+	}
+
+	public void setCredits(List<AmazonCredit> credits) {
+		this.credits = credits;
+	}
+	
+	
+  
 }

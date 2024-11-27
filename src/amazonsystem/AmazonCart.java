@@ -137,7 +137,7 @@ public class AmazonCart implements Payable {
 	        int productId = product.getId();
 	        int quantity = item.getQuantity();
 	        String productName = product.getName();
-
+	        System.out.println(productName);
 	        
 	        report.append(String.format("Item[ID: %d, Name: %s], quantity = %d\n", productId, productName, quantity));
 	    }
