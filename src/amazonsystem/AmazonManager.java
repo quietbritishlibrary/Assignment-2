@@ -31,7 +31,7 @@ public class AmazonManager {
 
 		AmazonManager use = new AmazonManager();
 		String option = "";
-		try{// Main loop for interacting with the user until they choose to exit
+		
 		while (!option.equals("Q")) {
 			use.showMenu();
 			//System.out.print("                              Choose an option: ");
@@ -40,10 +40,7 @@ public class AmazonManager {
 
 				option = input.nextLine().toUpperCase();
 
-			} catch (Exception e) {
-				
-				// If the user enters a non-integer, loop once again
-			}
+			
 
 			// Handle the user selection based on menu choice
 			switch (option) {
@@ -104,11 +101,13 @@ public class AmazonManager {
 				throw new AmazonException("AmazonException: Invalid input - type a letter from A - Q!");
 				
 			}
+			} catch (AmazonException e) {
+				
+			System.out.println(e.getLocalizedMessage());
+			}
 		}
 
-		}catch(AmazonException e) {
-			System.out.println(e.getLocalizedMessage());
-		}
+		
 	}
 	
 
@@ -222,7 +221,6 @@ public class AmazonManager {
   		    String id = "";
   		    String name = "";
   		    String address = "";
-  		    int size = customers.size();
   		    
 
   		    while (true) {
@@ -234,14 +232,15 @@ public class AmazonManager {
   		                throw new AmazonException("AmazonException: ID must be positive and an Integer!");
   		            }
   		            
-  		            int parsedInt = Integer.parseInt(id);
+  		            int parsedCustomerId = Integer.parseInt(id);
   		            
-  		            for(int i = 0; i < size; i++) {
-  		            	int customerId = customers.get(i).getId();
-  		            	if(parsedInt == customerId) {
-  		            		throw new AmazonException("AmazonException: ID can't be a duplicate!");
-  		            	}
-  		            }
+  		           // For-Each search loop to check validity of customer ID
+  	  	          for (AmazonCustomer c : customers) {
+  	 	                int currentCustomerId = c.getId();
+  	 	                if (parsedCustomerId == currentCustomerId) {
+  	 	                    throw new AmazonException("AmazonException: The Customer already exists, enter a new id!");
+  	 	                }
+  	 	            }
   		            
 
   		            break;
@@ -316,15 +315,16 @@ public class AmazonManager {
   	                throw new AmazonException("AmazonException: ID must be positive and an Integer!");
   	            }
   	            
-  	            int parsedInt = Integer.parseInt(id);
+  	            int parsedCustomerId = Integer.parseInt(id);
   	            
-  	            for (int i = 0; i < size; i++) {
-  	                int customerId = customers.get(i).getId();
-  	                if (parsedInt == customerId) {
-  	                    customer = customers.get(i);
-  	                    break; // customer found now leave for loop
-  	                } 
-  	            }
+  	            	// For-Each search loop to find customer ID
+    	          for (AmazonCustomer c : customers) {
+   	                int currentCustomerId = c.getId();
+   	                if (parsedCustomerId == currentCustomerId) {
+   	                    customer = c;
+   	                    break;
+   	                }
+   	            }
   	            
   	            if(customer == null) { // check if customer is null
   	            	throw new AmazonException("AmazonException: Customer not found, try a different ID!");
@@ -421,16 +421,16 @@ public class AmazonManager {
   	                throw new AmazonException("AmazonException: ID must be positive and an Integer!");
   	            }
   	            
-  	            int parsedInt = Integer.parseInt(id);
+  	            int parsedCustomerId = Integer.parseInt(id);
   	            
-  	            for (int i = 0; i < size; i++) {
-  	                int customerId = customers.get(i).getId();
-  	                if (parsedInt == customerId) {
-  	                    customer = customers.get(i);
-  	                    break;
-  	                } 
-
-  	            }
+  	              // For-Each search loop to find customer ID
+    	          for (AmazonCustomer c : customers) {
+   	                int currentCustomerId = c.getId();
+   	                if (parsedCustomerId == currentCustomerId) {
+   	                    customer = c;
+   	                    break;
+   	                }
+   	            }
   	            
   	            if(customer == null) {
                 throw new AmazonException("AmazonException: Customer not found, try a different ID!");
@@ -466,15 +466,16 @@ public class AmazonManager {
   	                throw new AmazonException("AmazonException: ID must be positive and an Integer!");
   	            }
 
-  	            int parsedInt = Integer.parseInt(customerId);
+  	            int parsedCustomerId = Integer.parseInt(customerId);
 
-  	            for (int i = 0; i < customerSize; i++) {
-  	                int currentId = customers.get(i).getId();
-  	                if (parsedInt == currentId) {
-  	                    customer = customers.get(i);
-  	                    break; // stop loop once right ID found
-  	                }
-  	            }
+  	            	// For-Each search loop to find customer ID
+    	          for (AmazonCustomer c : customers) {
+   	                int currentCustomerId = c.getId();
+   	                if (parsedCustomerId == currentCustomerId) {
+   	                    customer = c;
+   	                    break;
+   	                }
+   	            }
 
   	            if (customer == null) {
   	                throw new AmazonException("AmazonException: Customer not found, try a different ID!");
@@ -496,16 +497,17 @@ public class AmazonManager {
   	                throw new AmazonException("AmazonException: ID must be positive and an Integer!");
   	            }
 
-  	            int parsedInt = Integer.parseInt(productId);
+  	            int parsedProductId = Integer.parseInt(productId);
 
   	            
-  	            for (int i = 0; i < productSize; i++) {
-  	                int currentId = products.get(i).getId();
-  	                if (parsedInt == currentId) {
-  	                    product = products.get(i);
-  	                    break; 
-  	                }
-  	            }
+  	            // For-Each loop to find matching product ID
+  	          for (AmazonProduct p : products) {
+ 	                int currentProductId = p.getId();
+ 	                if (parsedProductId == currentProductId) {
+ 	                    product = p;
+ 	                    break;
+ 	                }
+ 	            }
 
   	            
   	            if (product == null) {
@@ -549,13 +551,14 @@ public class AmazonManager {
   	            int parsedCustomerId = Integer.parseInt(customerId);
 
   	           
-  	            for (int i = 0; i < customerSize; i++) {
-  	                int currentCustomerId = customers.get(i).getId();
-  	                if (parsedCustomerId == currentCustomerId) {
-  	                    customer = customers.get(i);
-  	                    break;
-  	                }
-  	            }
+  	            // For-Each search loop to find customer ID
+  	          for (AmazonCustomer c : customers) {
+ 	                int currentCustomerId = c.getId();
+ 	                if (parsedCustomerId == currentCustomerId) {
+ 	                    customer = c;
+ 	                    break;
+ 	                }
+ 	            }
 
   	          
   	            if (customer == null) {
@@ -582,13 +585,14 @@ public class AmazonManager {
   	            int parsedProductId = Integer.parseInt(productId);
 
   	         
-  	            for (int i = 0; i < productSize; i++) {
-  	                int currentProductId = products.get(i).getId();
-  	                if (parsedProductId == currentProductId) {
-  	                    product = products.get(i);
-  	                    break;
-  	                }
-  	            }
+  	              // For-Each loop to find matching product ID
+    	          for (AmazonProduct p : products) {
+   	                int currentProductId = p.getId();
+   	                if (parsedProductId == currentProductId) {
+   	                    product = p;
+   	                    break;
+   	                }
+   	            }
 
   	        
   	            if (product == null) {
@@ -628,13 +632,14 @@ public class AmazonManager {
   	            int parsedCustomerId = Integer.parseInt(customerId);
 
   	           
-  	            for (int i = 0; i < customerSize; i++) {
-  	                int currentCustomerId = customers.get(i).getId();
-  	                if (parsedCustomerId == currentCustomerId) {
-  	                    customer = customers.get(i);
-  	                    break;
-  	                }
-  	            }
+  	              // For-Each search loop to find customer ID
+    	          for (AmazonCustomer c : customers) {
+   	                int currentCustomerId = c.getId();
+   	                if (parsedCustomerId == currentCustomerId) {
+   	                    customer = c;
+   	                    break;
+   	                }
+   	            }
 
   	          
   	            if (customer == null) {
@@ -657,12 +662,7 @@ public class AmazonManager {
   	    String customerId = "";
   	    String productId = "";
   	    String quantity = "";
-  	    String comment = "";
-  	    
-  	  
-  	    int customerSize = customers.size();
-  	    int productSize = products.size();
-  	    
+
   	    AmazonCustomer customer = null;
   	    AmazonProduct product = null;
   	    
@@ -677,18 +677,18 @@ public class AmazonManager {
   	            }
 
   	            int parsedCustomerId = Integer.parseInt(customerId);
-  	            boolean customerFound = false;
+  	         
 
-  	            for (int i = 0; i < customerSize; i++) {
-  	                int currentId = customers.get(i).getId();
-  	                if (parsedCustomerId == currentId) {
-  	                    customer = customers.get(i);
-  	                    customerFound = true;
-  	                    break;
-  	                }
-  	            }
+  	            // For-Each search loop to find customer ID
+    	          for (AmazonCustomer c : customers) {
+   	                int currentCustomerId = c.getId();
+   	                if (parsedCustomerId == currentCustomerId) {
+   	                    customer = c;
+   	                    break;
+   	                }
+   	            }
 
-  	            if (!customerFound) {
+  	            if (customer == null) {
   	                throw new AmazonException("AmazonException: Customer not found, try a different ID!");
   	            }
 
@@ -710,18 +710,17 @@ public class AmazonManager {
   	            }
 
   	            int parsedProductId = Integer.parseInt(productId);
-  	            boolean productFound = false;
+  	           
+  	            // For-Each loop to find matching product ID
+  	          for (AmazonProduct p : products) {
+ 	                int currentProductId = p.getId();
+ 	                if (parsedProductId == currentProductId) {
+ 	                    product = p;
+ 	                    break;
+ 	                }
+ 	            }
 
-  	            for (int i = 0; i < productSize; i++) {
-  	                int currentProductId = products.get(i).getId();
-  	                if (parsedProductId == currentProductId) {
-  	                    product = products.get(i);
-  	                    productFound = true;
-  	                    break;
-  	                }
-  	            }
-
-  	            if (!productFound) {
+  	            if (product == null) {
   	                throw new AmazonException("AmazonException: Product not found, try a different ID!");
   	            }
 
@@ -778,15 +777,17 @@ public class AmazonManager {
   	                throw new AmazonException("AmazonException: ID must be positive and an Integer!");
   	            }
 
-  	            int parsedInt = Integer.parseInt(customerId);
+  	            int parsedCustomerId = Integer.parseInt(customerId);
 
   	           
-  	            for (int i = 0; i < customerSize; i++) {
-  	                int currentId = customers.get(i).getId();
-  	                if (parsedInt == currentId) {
-  	                    customer = customers.get(i);
-  	                }
-  	            }
+  	              // For-Each search loop to find customer ID
+    	          for (AmazonCustomer c : customers) {
+   	                int currentCustomerId = c.getId();
+   	                if (parsedCustomerId == currentCustomerId) {
+   	                    customer = c;
+   	                    break;
+   	                }
+   	            }
 
   	            if (customer == null) {
   	                throw new AmazonException("AmazonException: Customer not found!");
@@ -820,15 +821,16 @@ public class AmazonManager {
   	                throw new AmazonException("AmazonException: ID must be positive and an Integer!");
   	            }
 
-  	            int parsedInt = Integer.parseInt(customerId);
+  	            int parsedCustomerId = Integer.parseInt(customerId);
 
-  	           
-  	            for (int i = 0; i < customerSize; i++) {
-  	                int currentId = customers.get(i).getId();
-  	                if (parsedInt == currentId) {
-  	                    customer = customers.get(i);
-  	                }
-  	            }
+  	          // For-Each search loop to find customer ID
+  	          for (AmazonCustomer c : customers) {
+ 	                int currentCustomerId = c.getId();
+ 	                if (parsedCustomerId == currentCustomerId) {
+ 	                    customer = c;
+ 	                    break;
+ 	                }
+ 	            }
 
   	            if (customer == null) {
   	                throw new AmazonException("AmazonException: Customer not found!");
@@ -867,6 +869,9 @@ public class AmazonManager {
   	                        AmazonCredit credit = customer.getCredits().get(i);
   	                        System.out.println("Payment type is cash");
   	                        float total = credit.getAmount() - customer.getCart().calcSubTotal();
+  	                      if(total < 0) {
+	                        	throw new AmazonException("AmazonException: You dont have enough credits of cash, try a different payment method.");
+	                        }
   	                        System.out.println("Customer credit updated: " + total);
   	                        break;
   	                    }
@@ -881,6 +886,9 @@ public class AmazonManager {
   	                        AmazonCredit credit = customer.getCredits().get(i);
   	                        System.out.println("Payment type is check");
   	                        float total = credit.getAmount() - customer.getCart().calcSubTotal();
+  	                        if(total < 0) {
+  	                        	throw new AmazonException("AmazonException: You dont have enough credits on your check, try a different payment method.");
+  	                        }
   	                        System.out.println("Customer credit updated: " + total);
   	                        break;
   	                    }
@@ -894,6 +902,9 @@ public class AmazonManager {
   	                        AmazonCredit credit = customer.getCredits().get(i);
   	                        System.out.println("Payment type is card");
   	                        float total = credit.getAmount() - customer.getCart().calcSubTotal();
+  	                      if(total < 0) {
+	                        	throw new AmazonException("AmazonException: You dont have enough credits on your card, try a different payment method.");
+	                        }
   	                        System.out.println("Customer credit updated: " + total);
   	                        break;
   	                    }
@@ -911,11 +922,10 @@ public class AmazonManager {
 
   	    }
   	    
-  	    break;
-  	    
+  	    //break;
   	
   	  }
-  	  System.out.println("Cart empty - you can comment products now.");
+  	  //System.out.println("Cart empty - you can comment products now.");
 
   	}
   	
