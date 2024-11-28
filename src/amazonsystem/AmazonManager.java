@@ -2,11 +2,15 @@ package amazonsystem;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import amazonproducts.AmazonProduct;
+import amazonproducts.AmazonProductException;
+import amazonproducts.AmazonProductUtil;
 import amazonsystem.AmazonCredit.PaymentType;
 
 public class AmazonManager {
@@ -1064,7 +1068,87 @@ public class AmazonManager {
   	
   	/////////////////////////////////////////////////THE SBA METHODS////////////////////////////////////////////////
   	
+  	public void save(String fileName)  {
+  		try (FileWriter file = new FileWriter(fileName)){
+            
+            for(AmazonCustomer c : customers) {
+                file.write(c + "\n");
+                file.write(c.getWishlist().toString());
+                file.write(c.getCart().toString());
+                file.write(c.getComments().toString());
+            }       
+            
+            
+        } catch (IOException e) {
+            System.out.println("Error saving the file: " + e.getMessage());
+        } catch(IndexOutOfBoundsException e) {
+            throw new IndexOutOfBoundsException();
+        }
+  		
+  	}
   	
+  	
+  	public void load(String fileName) {
+  	    try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+  	        String line;
+  	        AmazonCustomer currentCustomer = null;
+  	        AmazonProduct  currentProduct = null;
+  	        AmazonCartItem currentItem = null;
+  	        
+
+  	        while ((line = reader.readLine()) != null) {
+  	            // Check for Customer data
+  	            if (line.startsWith("- Customer:")) {
+  	            	String [] data = new String[10];
+  	            	currentCustomer = AmazonCustomer.createAmazonCustomer(data = AmazonUtil.lineReader(line, 0));
+  	                customers.add(currentCustomer);
+  	            }
+  	            
+  	            // Check for Credit List
+  	            if (line.startsWith("- Credit [")) {
+  	            	String [] data = new String[3];
+  	                customers.add(currentCustomer);
+  	                
+  	                AmazonCheck.createCheck(data = AmazonUtil.lineReader(line, 0));
+  	                currentCustomer.addCredit(credit);
+  	            }
+
+  	            // Check for Wishlist
+  	            if (line.startsWith("- Wishlist [")) {
+  	            	String [] data = new String[10];
+  	            	currentProduct = AmazonProduct.createAmazonProduct(data = AmazonUtil.lineReader(line, 0));
+  	                currentCustomer.addProductInWishList(currentProduct);
+  	            }
+
+  	            // Check for Cart Items
+  	            if (line.startsWith("- Item[")) {
+  	            	String [] data = new String[10];
+  	            	currentProduct = AmazonProduct.createAmazonProduct(data = AmazonUtil.lineReader(line, 0));
+  	            	currentItem = new AmazonCartItem(currentProduct,currentItem.getQuantity());
+  	                currentCustomer.addItemInCart(currentItem);
+  	            }
+
+  	            // Check for Comments
+  	            if (line.startsWith("- Comment[")) {
+  	                String[] commentData = line.split(": ")[1].split(" - ");
+  	                int productId = Integer.parseInt(commentData[0].split(" ")[1]);
+  	                String text = commentData[1].split(" - ")[0];
+  	                float rating = Float.parseFloat(commentData[2].split(": ")[1].replace("]", ""));
+  	                items.add()
+  	                AmazonComment comment = new AmazonComment(productId, text, rating);
+  	                currentCustomer.addComment(comment);
+  	            }
+  	        }
+
+  	    } catch (IOException e) {
+  	        System.out.println("Error loading the file: " + e.getMessage());
+  	    }
+  	}
+
+  	
+  	public void show(List<AmazonCustomer> customers) {
+  		
+  	}
   	
   	
 }

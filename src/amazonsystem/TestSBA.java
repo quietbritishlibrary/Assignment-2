@@ -84,11 +84,9 @@ class TestSBA {
 		 // PART 5 - Creating comments (1pt)
 		System.out.println("PART 5 - Creating comments ........................(1pt)");
 		size = customer.getNumberOfComments();
-		System.out.println("the size is: " + size);
 		for (int i=0;i<size;i++) {
 			product = customer.getComment(i).getProduct();
 			customer.setComment(product, "Nice product", 5.0f);
-			System.out.println("the size is: " + size);
 		}
 		assertEquals(2, customer.getNumberOfComments());
 		customers.set(index, customer);
