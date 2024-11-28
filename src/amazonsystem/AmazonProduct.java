@@ -57,7 +57,7 @@ public class AmazonProduct {
 				float rating = Float.parseFloat(data[6]);
 				int nRatings = Integer.parseInt(data[7].replace(",", ""));
 				float discountPrice = Float.parseFloat(data[8]);
-				float actualPrice =Float.parseFloat(data[9]);
+				float actualPrice = Float.parseFloat(data[9]);
 				
 				if (id < 1 || 
 					    name == null || name.isBlank() || 

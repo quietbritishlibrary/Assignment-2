@@ -78,7 +78,7 @@ public class AmazonCustomer {
      * AmazonCustomer method for adding credits to the customers profile
      * @param the AmazonCredit the customer wants to add.
      */
-	public void addCredits(AmazonCredit credit) {
+	public void addCredit(AmazonCredit credit) {
 		credits.add(credit);
 	}
 	
@@ -177,7 +177,9 @@ public class AmazonCustomer {
             return false; 
         }
 
-		AmazonComment comment = new AmazonComment(product, newComment, rating);
+		AmazonComment comment = new AmazonComment(product);
+		comment.setRating(rating);
+		comment.setComment(newComment);
 		
 		comments.add(comment);
 		
@@ -197,9 +199,45 @@ public class AmazonCustomer {
 	/**
      * AmazonCredits method for formatting and printing the customers.
      */
-	public String toString() {
+	/* public String toString() {
 		return String.format("Customer: - Customer: [Id: %d], [Name: %s], [Address: %s]", id, name, address);
 	}
+	
+	public boolean pay(AmazonCredit money) {
+		 float total = cart.calcSubTotal();
+		 
+		   if(money.getAmount() >= total ) {
+			   this.cart.getItems().removeAll(cart.getItems());
+			   return true;
+		   }else {
+			   return false;
+		   }
+		  
+		 }
+	*/
+	
+	public boolean pay(int index) {
+		 float total = cart.calcSubTotal();
+		 AmazonCredit credit = credits.get(index);
+		 float pay = credit.getAmount();
+		 List <AmazonCartItem> itemsList = getCart().getItems();
+		 AmazonComment comment = null;
+		 
+		 
+		   if(pay >= total ) {
+			   for(AmazonCartItem p: itemsList) { 
+				   AmazonProduct product = p.getProduct();
+				   comment = new AmazonComment(product);
+			   }
+			   itemsList.clear();
+			   comments.add(comment);
+	
+			   return true;
+		   }else {
+			   return false;
+		   }
+		  
+		}
 	
 
 	// getters and setters
@@ -262,6 +300,22 @@ public class AmazonCustomer {
 
 	public Integer getCartSize() {
 		return cart.getItems().size();
+	}
+
+	public Integer getNumberOfComments() {
+		return comments.size();
+	}
+
+	public int getNumberOfCredits() {
+		return credits.size();
+	}
+
+	public Integer getWishlistSize() {
+		return wishlist.size();
+	}
+
+	public AmazonComment getComment(int i) {
+		return comments.get(i);
 	}
 	
 	

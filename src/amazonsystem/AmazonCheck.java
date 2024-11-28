@@ -34,27 +34,28 @@ public class AmazonCheck extends AmazonCredit {
      * @param String array of substrings of the checks data.
      */
 	
-	public static AmazonCheck createAmazonCheck(String [] data) {
+	public static AmazonCheck createCheck(String [] data) {
 		   
-		   if(data == null) {
+		   if(data == null ) {
 			   return null;
 			   
 		   } else if(data.length != 2) {
 			   return null;
 		   }
 		   
-
+		   try {
 		        float amount = Float.parseFloat(data[1]);
-				String accountNumber = data[0];
-				
+		   }catch(NumberFormatException e) {
+			   return null;
+		   }
+		   
+		   String accountNumber = data[0];
 				if(accountNumber.isBlank() || accountNumber.isEmpty()) {
 					return null;
 				}
 				
 				AmazonCheck check = new AmazonCheck(data);
-				
-				
-				   
+   
 				return check;
 		
 		}

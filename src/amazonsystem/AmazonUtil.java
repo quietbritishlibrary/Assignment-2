@@ -22,7 +22,7 @@ public class AmazonUtil {
         
         // Loop through each character in the string and add digits to the list
         for(int i = 0; i < str.length(); i++) {
-            if(Character.isDigit(str.charAt(i))) {
+            if(Character.isDigit(str.charAt(i)) || str.contains(".")) {
                 cleanedStr = String.valueOf(str.charAt(i)); 
                 fullStr.add(cleanedStr); // 
             } else {

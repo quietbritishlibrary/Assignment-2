@@ -42,18 +42,28 @@ public class AmazonCard extends AmazonCredit {
      * @param String array of substrings of the checks data.
      */
 	
-	public static AmazonCard createAmazonCard(String [] data) {
+	public static AmazonCard createCard(String [] data) {
+		
 		   
 		   if(data == null || data.length != 3) {
 			   return null;
 			   
 		   } 
 		   
+		   float amount;
+		   
+		   try {
 		   		
-		        float amount = Float.parseFloat(data[2]);
-				String number = data[0];
-				String expiration = data[1];
+		         amount = Float.parseFloat(data[2]);
+				 
 				
+		   }catch(NumberFormatException e) {
+			   return null;
+		   }
+		   
+		   	 String number = data[0];
+			 String expiration = data[1];	
+		   
 				if(number.isBlank() || number.isEmpty() || expiration.isBlank() || expiration.isEmpty() || amount < 0) {
 					return null;
 				}

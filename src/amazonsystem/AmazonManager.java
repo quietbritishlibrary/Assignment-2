@@ -356,7 +356,7 @@ public class AmazonManager {
   	                    }
   	                    
   	                    String[] cashData = {cashAmount};    
-  	                    newCredit = AmazonCash.createAmazonCash(cashData);
+  	                    newCredit = AmazonCash.createCash(cashData);
   	                    break;
 
   	                case "2":
@@ -370,7 +370,7 @@ public class AmazonManager {
   	                    }
   	                    
   	                    String[] checkData = {accountNumber, checkAmount};  
-  	                    newCredit = AmazonCheck.createAmazonCheck(checkData); 
+  	                    newCredit = AmazonCheck.createCheck(checkData); 
   	                    break;
 
   	                case "3":
@@ -386,7 +386,7 @@ public class AmazonManager {
   	                    }
 
   	                    String[] cardData = {cardNumber, expiration, cardAmount}; 
-  	                    newCredit = AmazonCard.createAmazonCard(cardData);
+  	                    newCredit = AmazonCard.createCard(cardData);
   	                    break;
 
   	                default:
@@ -394,7 +394,7 @@ public class AmazonManager {
   	            }
 
   	            if (newCredit != null) {
-  	                customer.addCredits(newCredit);
+  	                customer.addCredit(newCredit);
   	                System.out.println("Result: Credit added with success!");
   	                break; 
   	            }
@@ -933,8 +933,6 @@ public class AmazonManager {
   	public void addCommentToProduct() {
   		 String customerId = "";
    	    String productId = "";
-   	    int customerSize = customers.size();
-   	    int productSize = products.size();
    	    AmazonCustomer customer = null;
    	    AmazonProduct product = null;
    	    String comment = "";
@@ -1063,6 +1061,10 @@ public class AmazonManager {
     	    
     	    customer.showComments();
   	}
+  	
+  	/////////////////////////////////////////////////THE SBA METHODS////////////////////////////////////////////////
+  	
+  	
   	
   	
 }

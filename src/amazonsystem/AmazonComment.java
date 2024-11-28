@@ -12,10 +12,10 @@ public class AmazonComment {
      * @param an AmazonProduct Object to assign the comment to.
      */
 	
-	public AmazonComment(AmazonProduct myProduct, String myComment, float myRating) {
+	public AmazonComment(AmazonProduct myProduct) {
 		product = myProduct;
-		comment = myComment;
-		rating = myRating;
+		this.comment = "";
+		this.rating = 0;
 	}
 	
 	
