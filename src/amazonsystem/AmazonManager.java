@@ -241,6 +241,7 @@ public class AmazonManager {
   	 	                    throw new AmazonException("AmazonException: The Customer already exists, enter a new id!");
   	 	                }
   	 	            }
+  	  	          
   		            
 
   		            break;

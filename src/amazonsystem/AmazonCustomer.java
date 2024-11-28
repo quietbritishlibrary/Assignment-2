@@ -259,6 +259,10 @@ public class AmazonCustomer {
 	public void setCredits(List<AmazonCredit> credits) {
 		this.credits = credits;
 	}
+
+	public Integer getCartSize() {
+		return cart.getItems().size();
+	}
 	
 	
   
