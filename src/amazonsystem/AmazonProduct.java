@@ -15,8 +15,6 @@ public class AmazonProduct {
 	private float actualPrice;
 	private String[] title;
 	
-	
-	
 	// parameterized constructor
 	private AmazonProduct(int myId, String myName, AmazonProductCategory myCategory, AmazonProductSubCategory mySubCategory, String myImageURL, String myLink, float myRating, int my_nRating, float myDiscountPrice, float myActualPrice ) {
 		id = myId;
@@ -208,9 +206,7 @@ public class AmazonProduct {
 		imageURL = myImageURL;
 	}
 	
-	
-	
-	
+
 	
 
 	

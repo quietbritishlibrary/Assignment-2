@@ -18,6 +18,8 @@ public class AmazonComment {
 		this.rating = 0;
 	}
 	
+	public AmazonComment() {};
+	
 	
 	/**
      * Method for formatting the comment into a concise string.

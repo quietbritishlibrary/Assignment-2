@@ -173,17 +173,19 @@ public class AmazonCustomer {
      */
 	public boolean setComment(AmazonProduct product, String newComment, float rating) {
 		
-		if (product == null || newComment == null || newComment.isEmpty() || rating < 0 || rating > 5) {
+		if (product == null || newComment == null || rating < 0 || rating > 5) {
             return false; 
         }
 
 		AmazonComment comment = new AmazonComment(product);
-		comment.setRating(rating);
-		comment.setComment(newComment);
 		
-		comments.add(comment);
+		comment.setRating(rating);
+		comment.setComment(newComment);	
+		System.out.println(comment);
+		
 		
 		return true;
+		
 		
 	}
 	
@@ -224,13 +226,15 @@ public class AmazonCustomer {
 		 AmazonComment comment = null;
 		 
 		 
+		 
 		   if(pay >= total ) {
+			   //makes 2 comments
 			   for(AmazonCartItem p: itemsList) { 
 				   AmazonProduct product = p.getProduct();
 				   comment = new AmazonComment(product);
+				   addComment(comment);
 			   }
 			   itemsList.clear();
-			   comments.add(comment);
 	
 			   return true;
 		   }else {

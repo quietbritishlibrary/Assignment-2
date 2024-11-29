@@ -1146,7 +1146,8 @@ public class AmazonManager {
   		
   		System.out.println("SHOWING AMAZON DATA .....................");
   		for (AmazonCustomer c : customers) {
-  	        System.out.println( c);  
+  	        System.out.println( c); 
+  	        System.out.println("- Credit List:");
   	        System.out.println(c.getCredits());
   	        if(c.getWishlist().isEmpty()) {
   	        	System.out.println("- Wish list: [No wish list]");
@@ -1167,8 +1168,10 @@ public class AmazonManager {
   	        	System.out.println("- Comments: [No comments]");
   	        }else {
   	        	System.out.println("- Comments: ");
+  	        	int i = 0;
   	        	for(AmazonComment comment: c.getComments()) {
-  	        		System.out.println(comment);
+  	        	System.out.println(comment);	
+  	        		//System.out.println(comment);
   	        	}
   	        }
   	    }
