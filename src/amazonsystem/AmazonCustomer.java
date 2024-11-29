@@ -199,10 +199,10 @@ public class AmazonCustomer {
 	/**
      * AmazonCredits method for formatting and printing the customers.
      */
-	/* public String toString() {
+	 public String toString() {
 		return String.format("Customer: - Customer: [Id: %d], [Name: %s], [Address: %s]", id, name, address);
 	}
-	
+	 /*
 	public boolean pay(AmazonCredit money) {
 		 float total = cart.calcSubTotal();
 		 
@@ -319,6 +319,10 @@ public class AmazonCustomer {
 	public AmazonComment getComment(int i) {
 		return comments.get(i);
 	}
+	
+	
+	
+
 	
 	
   

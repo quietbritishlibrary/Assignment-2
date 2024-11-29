@@ -8,10 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import amazonproducts.AmazonProduct;
-import amazonproducts.AmazonProductException;
-import amazonproducts.AmazonProductUtil;
 import amazonsystem.AmazonCredit.PaymentType;
+
 
 public class AmazonManager {
 	
@@ -1094,6 +1092,7 @@ public class AmazonManager {
   	        AmazonCustomer currentCustomer = null;
   	        AmazonProduct  currentProduct = null;
   	        AmazonCartItem currentItem = null;
+  	        AmazonCredit credit = null;
   	        
 
   	        while ((line = reader.readLine()) != null) {
@@ -1106,10 +1105,10 @@ public class AmazonManager {
   	            
   	            // Check for Credit List
   	            if (line.startsWith("- Credit [")) {
-  	            	String [] data = new String[3];
+  	            	String [] data = new String[2];
   	                customers.add(currentCustomer);
   	                
-  	                AmazonCheck.createCheck(data = AmazonUtil.lineReader(line, 0));
+  	               credit = AmazonCash.createCash(data = AmazonUtil.lineReader(line, 0));
   	                currentCustomer.addCredit(credit);
   	            }
 
@@ -1130,12 +1129,9 @@ public class AmazonManager {
 
   	            // Check for Comments
   	            if (line.startsWith("- Comment[")) {
-  	                String[] commentData = line.split(": ")[1].split(" - ");
-  	                int productId = Integer.parseInt(commentData[0].split(" ")[1]);
-  	                String text = commentData[1].split(" - ")[0];
-  	                float rating = Float.parseFloat(commentData[2].split(": ")[1].replace("]", ""));
-  	                items.add()
-  	                AmazonComment comment = new AmazonComment(productId, text, rating);
+  	            	String [] data = new String[3];
+  	            	currentProduct = AmazonProduct.createAmazonProduct(data = AmazonUtil.lineReader(line, 0));
+  	            	AmazonComment comment = new AmazonComment(currentProduct);
   	                currentCustomer.addComment(comment);
   	            }
   	        }
@@ -1147,6 +1143,40 @@ public class AmazonManager {
 
   	
   	public void show(List<AmazonCustomer> customers) {
+  		
+  		System.out.println("SHOWING AMAZON DATA .....................");
+  		for (AmazonCustomer c : customers) {
+  	        System.out.println( c);  
+  	        System.out.println(c.getCredits());
+  	        if(c.getWishlist().isEmpty()) {
+  	        	System.out.println("- Wish list: [No wish list]");
+  	        }else {
+  	        	int i = 0;
+  	        	for(AmazonProduct p: c.getWishlist()) {
+  	        		System.out.println("- Wishlist [" + i++ +"]:" + p.getName());
+  	        	}
+  	        }
+  	        
+  	        if(c.getCart().getItems().isEmpty()) {
+  	        	System.out.println("- Cart:[No items]");
+  	        }else {
+  	        	System.out.println("- Cart:");
+  	        	System.out.println(c.getCart());
+  	        }
+  	        if(c.getComments().isEmpty()) {
+  	        	System.out.println("- Comments: [No comments]");
+  	        }else {
+  	        	System.out.println("- Comments: ");
+  	        	for(AmazonComment comment: c.getComments()) {
+  	        		System.out.println(comment);
+  	        	}
+  	        }
+  	    }
+  		
+  		//c.getWishlist().toString());
+      //  file.write(c.getCart().toString());
+        //file.write(c.getComments().toString());
+  		
   		
   	}
   	

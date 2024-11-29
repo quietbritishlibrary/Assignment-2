@@ -25,8 +25,13 @@ public class AmazonComment {
      */
 	
 	public String toString() {
-		return String.format("- Comment: %s - rating: %f",comment,rating);
+		
+	
+		return String.format("- ProdId: %d - Comment: %s - rating: %.2f", product.getId(),comment,rating);
 	}
+
+	
+	
 
 	//getters and setters 
 	

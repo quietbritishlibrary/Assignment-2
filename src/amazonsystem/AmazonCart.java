@@ -141,6 +141,8 @@ public class AmazonCart implements Payable {
 	        
 	        report.append(String.format("Item[ID: %d, Name: %s], quantity = %d\n", productId, productName, quantity));
 	    }
+	    
+	   
 
 	    report.append(String.format("* Total value: %.2f\n", totalValue));
 
