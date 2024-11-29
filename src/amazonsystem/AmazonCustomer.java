@@ -172,7 +172,6 @@ public class AmazonCustomer {
      * @return true or false based on if the AmazonComment object managed to be created.
      */
 	public boolean setComment(AmazonProduct product, String newComment, float rating) {
-		
 		if (product == null || newComment == null || rating < 0 || rating > 5) {
             return false; 
         }
@@ -181,9 +180,17 @@ public class AmazonCustomer {
 		
 		comment.setRating(rating);
 		comment.setComment(newComment);	
-		System.out.println(comment);
+
 		
-		
+			if(product.getId() == 1) {
+				comments.set(0, comment);
+			}
+	            
+			if(product.getId() == 2) {
+				comments.set(1, comment);
+			}    
+	       
+
 		return true;
 		
 		

@@ -86,6 +86,7 @@ class TestSBA {
 		size = customer.getNumberOfComments();
 		for (int i=0;i<size;i++) {
 			product = customer.getComment(i).getProduct();
+			System.out.println(customer.getComments());
 			customer.setComment(product, "Nice product", 5.0f);
 		}
 		assertEquals(2, customer.getNumberOfComments());
@@ -108,14 +109,14 @@ class TestSBA {
 		customers.set(index, customer);
 		 // System data
 		AmazonManager manager = new AmazonManager();  //previously AmazonSystem
-		/* // PART 6 - Saving / Loading / Printing (5 pts)
+		 // PART 6 - Saving / Loading / Printing (5 pts)
 		System.out.println("PART 6 - Saving file ..............................(1pt)");
 		manager.save(filename); 		// 1pt
 		System.out.println("PART 7 - Loading file .............................(1pt)");
 		manager.load(filename); 		// 1pt
 		System.out.println("PART 8 - Printing data ...........................(3pts)");
 		manager.show(customers); 	// 3pts
-		*/ System.out.println("[Test end] ::::::::::::::::::::::::::::::::::::::::::::");
+		 System.out.println("[Test end] ::::::::::::::::::::::::::::::::::::::::::::");
 	}
 
 }

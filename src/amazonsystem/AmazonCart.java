@@ -144,7 +144,7 @@ public class AmazonCart implements Payable {
 	    
 	   
 
-	    report.append(String.format("* Total value: %.2f\n", totalValue));
+	    report.append(String.format("* Total value: %.2f", totalValue));
 
 	    return report.toString();  
 	}
