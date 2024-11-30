@@ -124,7 +124,7 @@ public class AmazonCart implements Payable {
      * @return the information about the cart.
      */
 	@Override
-	public String toString() {
+	/*public String toString() {
 	    String customerName = customer.getName();
 	    StringBuilder report = new StringBuilder();  
 	    float totalValue = calcSubTotal();
@@ -148,7 +148,29 @@ public class AmazonCart implements Payable {
 
 	    return report.toString();  
 	}
+*/
+	
+	
+	public String toString() {
+	    String customerName = customer.getName();
+	    StringBuilder report = new StringBuilder();  
+	    float totalValue = calcSubTotal();
 
+	    
+
+	    for (AmazonCartItem item : items) {
+	        AmazonProduct product = item.getProduct();
+	        int productId = product.getId();
+	        int quantity = item.getQuantity();
+	        String productName = product.getName();
+	        
+	        
+	        report.append(String.format(" - Item[ID: %d, Name: %s], quantity = %d", productId, productName, quantity));
+	    }
+
+
+	    return report.toString();  
+	}
 	
 	//getters and setters
 	

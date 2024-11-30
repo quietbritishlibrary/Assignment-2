@@ -29,7 +29,7 @@ public class AmazonComment {
 	public String toString() {
 		
 	
-		return String.format("- ProdId: %d - Comment: %s - rating: %.2f", product.getId(),comment,rating);
+		return String.format("ProdId: %d - Comment: %s - rating: %.2f", product.getId(),comment,rating);
 	}
 
 	

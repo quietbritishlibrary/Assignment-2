@@ -1066,14 +1066,15 @@ public class AmazonManager {
   	
   	/////////////////////////////////////////////////THE SBA METHODS////////////////////////////////////////////////
   	
-  	public void save(String fileName)  {
+ /* 	public void save(String fileName)  {
   		try (FileWriter file = new FileWriter(fileName)){
-            
+  			file.write("test");
             for(AmazonCustomer c : customers) {
-                file.write(c + "\n");
-                file.write(c.getWishlist().toString());
-                file.write(c.getCart().toString());
-                file.write(c.getComments().toString());
+            	//file.write("test");
+                //file.write(c + "\n");
+                //file.write(c.getWishlist().toString());
+                //file.write(c.getCart().toString());
+                //file.write(c.getComments().toString());
             }       
             
             
@@ -1084,7 +1085,112 @@ public class AmazonManager {
         }
   		
   	}
+  	*/
+  	/*
+  	public void save(String fileName) {
+  	    try (FileWriter file = new FileWriter(fileName)) {
+  	        file.write("SHOWING AMAZON DATA .....................\n");
+
+  	        // Assuming 'customers' is available at the class level
+  	        for (AmazonCustomer c : customers) {
+  	            file.write("Customer: " + c + "\n");  // Write customer data
+
+  	            // Write Credit List
+  	            file.write("- Credit List:\n");
+  	            file.write(c.getCredits() + "\n");
+
+  	            // Write Wishlist
+  	            if (c.getWishlist().isEmpty()) {
+  	                file.write("- Wish list: [No wish list]\n");
+  	            } else {
+  	                file.write("- Wishlist:\n");
+  	                int i = 0;
+  	                for (AmazonProduct p : c.getWishlist()) {
+  	                    file.write("  - Wishlist [" + i++ + "]: " + p.getName() + "\n");
+  	                }
+  	            }
+
+  	            // Write Cart
+  	            if (c.getCart().getItems().isEmpty()) {
+  	                file.write("- Cart: [No items]\n");
+  	            } else {
+  	                file.write("- Cart:\n");
+  	                file.write(c.getCart().toString() + "\n");
+  	            }
+
+  	            // Write Comments
+  	            if (c.getComments().isEmpty()) {
+  	                file.write("- Comments: [No comments]\n");
+  	            } else {
+  	                file.write("- Comments:\n");
+  	                int i = 0;
+  	                for (AmazonComment comment : c.getComments()) {
+  	                    file.write("  - Comment[" + i++ + "]: " + comment + "\n");
+  	                }
+  	            }
+
+  	            // Add a blank line between customers for better readability
+  	            file.write("\n");
+  	        }
+
+  	        System.out.println("Data saved successfully!");
+
+  	    } catch (IOException e) {
+  	        System.out.println("Error saving the file: " + e.getMessage());
+  	    }
+  	}
+*/
   	
+  	public void save(String fileName, List<AmazonCustomer> customers) {
+  	    try (FileWriter file = new FileWriter(fileName)) {
+  	        System.out.println("Starting save method...");
+
+  	        file.write("SHOWING AMAZON DATA .....................\n");
+
+  	        System.out.println("Number of customers: " + customers.size());
+
+  	        for (AmazonCustomer c : customers) {
+  	            file.write("Customer: " + c + "\n");
+
+  	            file.write("- Credit List:\n");
+  	            file.write(c.getCredits() + "\n");
+
+  	            if (c.getWishlist().isEmpty()) {
+  	                file.write("- Wish list: [No wish list]\n");
+  	            } else {
+  	                file.write("- Wishlist:\n");
+  	                int i = 0;
+  	                for (AmazonProduct p : c.getWishlist()) {
+  	                    file.write("  - Wishlist [" + i++ + "]: " + p.getName() + "\n");
+  	                }
+  	            }
+
+  	            if (c.getCart().getItems().isEmpty()) {
+  	                file.write("- Cart: [No items]\n");
+  	            } else {
+  	                file.write("- Cart:\n");
+  	                file.write(c.getCart().toString() + "\n");
+  	            }
+
+  	            if (c.getComments().isEmpty()) {
+  	                file.write("- Comments: [No comments]\n");
+  	            } else {
+  	                file.write("- Comments:\n");
+  	                int i = 0;
+  	                for (AmazonComment comment : c.getComments()) {
+  	                    file.write("  - Comment[" + i++ + "]: " + comment + "\n");
+  	                }
+  	            }
+
+  	            file.write("\n");
+  	        }
+
+
+  	    } catch (IOException e) {
+  	        System.out.println("Error saving the file: " + e.getMessage());
+  	    }
+  	}
+
   	
   	public void load(String fileName) {
   	    try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
@@ -1170,7 +1276,7 @@ public class AmazonManager {
   	        	System.out.println("- Comments: ");
   	        	int i = 0;
   	        	for(AmazonComment comment: c.getComments()) {
-  	        	System.out.println(comment);	
+  	        	System.out.println(" - Comment[" + i++ + "]: " + comment);	
   	        		//System.out.println(comment);
   	        	}
   	        }
