@@ -84,7 +84,7 @@ public class AmazonProductList {
     public void add(AmazonProduct p) throws AmazonException {
         try {    
             // Add the product to the list of bestsellers
-            bestsellers.add(p);
+            products.add(p);
         } catch (NullPointerException e) {
             // Handle case where the product is null
             throw new AmazonException("The data is empty!");
@@ -100,7 +100,7 @@ public class AmazonProductList {
      * @return The AmazonProduct object at the specified index
      */
     public AmazonProduct findProductByIndex(int index){
-        return bestsellers.get(index);
+        return products.get(index);
     }
    
     
@@ -115,9 +115,9 @@ public class AmazonProductList {
     	
     	System.out.println("The products associated are: ");
     	
-    	for(int i = 0; i < bestsellers.size();i++) {
+    	for(int i = 0; i < products.size();i++) {
     		
-    		AmazonProduct product = bestsellers.get(i);
+    		AmazonProduct product = products.get(i);
     		
     		if(product.getName().contains(data)) {
     			productFound++;   			
@@ -187,7 +187,7 @@ public class AmazonProductList {
      * @return The size of the product list
      */
     public int getSize() {
-        return bestsellers.size();
+        return products.size();
     }
 
 }

@@ -86,6 +86,12 @@ public class AmazonCustomer {
      * AmazonCredits method for displaying the credits in the customers list
      */
 	public void showCredits() {
+		
+		if(credits.isEmpty()) {
+			System.out.println("You have no credits");
+			return;
+		}
+		
 		for(AmazonCredit c : credits) {
 			System.out.println(c);
 		}
@@ -135,6 +141,12 @@ public class AmazonCustomer {
      * AmazonCustomer method for printing the items of the wishlist
      */
 	public void showWishList() {
+		
+		if(wishlist.isEmpty()) {
+			System.out.println("Wishlist is empty.");
+			return;
+		}
+		System.out.println("Printing wishlist ..............");
 		for(AmazonProduct p : wishlist) {
 			System.out.println(p);
 		}
@@ -155,6 +167,10 @@ public class AmazonCustomer {
 	public void showCart() {
 		
 		AmazonCart cart = getCart(); 
+		if(cart.getItems().isEmpty()) {
+			System.out.println("cart is empty.");
+			return;
+		}
 		System.out.println(cart);	
 	}
 	

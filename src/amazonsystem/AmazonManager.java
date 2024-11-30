@@ -81,7 +81,7 @@ public class AmazonManager {
 				use.addProductInCart();
 				break;
 			case "L":
-				//use.removeProductFromCart();
+				use.removeProductFromCart();
 				break;	
 			case "M":
 				use.showProductsInCart();
@@ -217,7 +217,7 @@ public class AmazonManager {
   	
   	
   	/**
-     * AmazonManager method used for adding a customer NOTE: TEST FUNCTION FOR AVOIDING DUPLICATES
+     * AmazonManager method used for adding a customer 
      */
   	public void addCustomer() throws AmazonException {
   		    String id = "";
@@ -294,6 +294,9 @@ public class AmazonManager {
      * AmazonManager method used for printing the contents of the customers list
      */
   	public void showCustomers() {
+  		if(customers.isEmpty()) {
+  			System.out.println("There are no customers loaded");
+  		}
   		System.out.println("[Printing customers ...]");
 		for(AmazonCustomer c : customers) {
 			System.out.println(c);
@@ -314,7 +317,7 @@ public class AmazonManager {
   	        try {
   	        	
   	        	if(customers.isEmpty()) {
-  	        		throw new AmazonException("AmazonException: You must add a user before assigning credit!");
+  	        		throw new AmazonException("AmazonException: You must add a user before assigning credit.");
   	        	}
   	        	
   	            System.out.print("Enter the Customer ID: ");
@@ -427,6 +430,11 @@ public class AmazonManager {
   	    
   	    while (true) {
   	        try {
+  	        	
+  	        	if(customers.isEmpty()) {
+  	        		throw new AmazonException("AmazonException: You must add a user before showing credit.");
+  	        	}
+  	        	
   	            System.out.print("Enter the Customer ID: ");
   	            id = input.nextLine();
 
@@ -453,6 +461,10 @@ public class AmazonManager {
 
   	        } catch (AmazonException e) {
   	            System.out.println(e.getLocalizedMessage());
+  	            
+  	          if(customers.isEmpty()) {
+	        		return;
+	        	}
   	        }
   	    }
   	    
@@ -666,7 +678,11 @@ public class AmazonManager {
 
   	    while (true) {
   	        try {
-  	            
+  	        	
+  	        	if(customers.isEmpty()) {
+  	        		throw new AmazonException("AmazonException: You must add a user before displaying a wishlist.");
+  	        	}
+
   	            System.out.print("Enter the Customer ID: ");
   	            customerId = input.nextLine();
 
@@ -694,10 +710,13 @@ public class AmazonManager {
 
   	        } catch (AmazonException e) {
   	            System.out.println(e.getLocalizedMessage());
+  	          if(customers.isEmpty()) {
+	        		return;
+	        	}
   	        }
   	    }
   	    
-        System.out.println("Printing wishlist ..............");
+        
   	    customer.showWishList();
 
   		
@@ -714,6 +733,15 @@ public class AmazonManager {
   	    // Get the Customer
   	    while (true) {
   	        try {
+  	        	
+  	        	if(products.isEmpty() && customers.isEmpty()) {
+  	        		throw new AmazonException("AmazonException: You must add both users and products before adding a product to your cart.");
+  	        	}else if(products.isEmpty()) {
+  	        		throw new AmazonException("AmazonException: There are no products to be added; please load products and try again.");
+  	        	}else if(customers.isEmpty()) {
+  	        		throw new AmazonException("AmazonException: You must add a user before adding a product to your cart.");
+  	        	}
+  	        	
   	            System.out.print("Enter the Customer ID: ");
   	            customerId = input.nextLine();
 
@@ -741,6 +769,14 @@ public class AmazonManager {
 
   	        } catch (AmazonException e) {
   	            System.out.println(e.getLocalizedMessage());
+  	            
+  	          if(products.isEmpty() && customers.isEmpty()) {
+	        		return;
+	        	}else if(products.isEmpty()) {
+	        		return;
+	        	}else if(customers.isEmpty()) {
+	        		return;
+	        	}
   	        }
   	    }
 
@@ -805,16 +841,21 @@ public class AmazonManager {
   	        }
   	    }
   	}
-
-
-  	public void showProductsInCart() {
-  	    String customerId = "";
-  	    int customerSize = customers.size();
+  	
+  	public void removeProductFromCart() {
+  		String customerId = "";
   	    AmazonCustomer customer = null;
-  	    
+  	    String AmazonCartItemId = "";
+  	    AmazonCartItem currentItem = null;
+   	    
   	    
   	    while (true) {
   	        try {
+  	        	
+  	        	if(customers.isEmpty()) {
+  	        		throw new AmazonException("AmazonException: You must add users before showing a the products in your cart.");
+  	        	}
+  	        	
   	            System.out.print("Enter the Customer id: ");
   	            customerId = input.nextLine();
 
@@ -842,12 +883,103 @@ public class AmazonManager {
 
   	        } catch (AmazonException e) {
   	            System.out.println(e.getLocalizedMessage());
+  	            
+  	          if(customers.isEmpty()) {
+	        		return;
+	        	}
+  	        }
+  	    }
+  	    
+  	    
+  	  // Get the Product
+  	    while (true) {
+  	        try {
+  	            System.out.print("Enter the ID of the product you'd like to remove from your cart: ");
+  	            AmazonCartItemId = input.nextLine();
+
+  	            if (!AmazonUtil.isValidInt(AmazonCartItemId)) {
+  	                throw new AmazonException("AmazonException: ID must be positive and an Integer!");
+  	            }
+
+  	            int parsedAmazonCartItemId = Integer.parseInt(AmazonCartItemId);
+  	           List <AmazonCartItem> AmazonCartItems = customer.getCart().getItems();
+  	            // For-Each loop to find matching product ID
+  	          for (AmazonCartItem i : AmazonCartItems) {
+ 	                int currentProductId = i.getProduct().getId();
+ 	                if (parsedAmazonCartItemId == currentProductId) {
+ 	                	currentItem = i;
+ 	                    AmazonCartItems.remove(i);
+ 	                    System.out.println("Product removed.");
+ 	                    break;
+ 	                }
+ 	            }
+
+  	            if (currentItem == null) {
+  	                throw new AmazonException("AmazonException: Product not found, try a different ID!");
+  	            }
+
+  	            break;  // Exit loop after finding the product
+
+  	        } catch (AmazonException e) {
+  	            System.out.println(e.getLocalizedMessage());
+  	        }
+  	    }
+  	    
+  	    
+  	}
+
+
+  	public void showProductsInCart() {
+  	    String customerId = "";
+  	    AmazonCustomer customer = null;
+  	    
+  	    
+  	    while (true) {
+  	        try {
+  	        	
+  	        	if(customers.isEmpty()) {
+  	        		throw new AmazonException("AmazonException: You must add users before showing a the products in your cart.");
+  	        	}
+  	        	
+  	            System.out.print("Enter the Customer id: ");
+  	            customerId = input.nextLine();
+
+  	            if (!AmazonUtil.isValidInt(customerId)) {
+  	                throw new AmazonException("AmazonException: ID must be positive and an Integer!");
+  	            }
+
+  	            int parsedCustomerId = Integer.parseInt(customerId);
+
+  	           
+  	              // For-Each search loop to find customer ID
+    	          for (AmazonCustomer c : customers) {
+   	                int currentCustomerId = c.getId();
+   	                if (parsedCustomerId == currentCustomerId) {
+   	                    customer = c;
+   	                    break;
+   	                }
+   	            }
+
+  	            if (customer == null) {
+  	                throw new AmazonException("AmazonException: Customer not found!");
+  	            }
+
+  	            break;
+
+  	        } catch (AmazonException e) {
+  	            System.out.println(e.getLocalizedMessage());
+  	            
+  	          if(customers.isEmpty()) {
+	        		return;
+	        	}
   	        }
   	    }
   	    
   	    customer.showCart();
   	
   	}
+  	
+  
   	
   	public void payCart() {
   		String customerId = "";
@@ -859,6 +991,17 @@ public class AmazonManager {
   	    
   	    while (true) {
   	        try {
+  	        	
+  	        	if(products.isEmpty() && customers.isEmpty()) {
+  	        		throw new AmazonException("AmazonException: You must add both users and products before purchasing items from your cart.");
+  	        	}else if(products.isEmpty()) {
+  	        		throw new AmazonException("AmazonException: There are no items to be purchased; please load products and try again.");
+  	        	}else if(customers.isEmpty()) {
+  	        		throw new AmazonException("AmazonException: You must add a user before attempting to purchase items.");
+  	        	}else if(customer.getCredits().isEmpty()) {
+  	        		throw new AmazonException("AmazonException: You must add credit before attempting to purchase items from your cart.");
+  	        	}
+  	        	
   	            System.out.print("Enter the Customer id: ");
   	            customerId = input.nextLine();
 
@@ -885,6 +1028,16 @@ public class AmazonManager {
 
   	        } catch (AmazonException e) {
   	            System.out.println(e.getLocalizedMessage());
+  	            
+  	          if(products.isEmpty() && customers.isEmpty()) {
+	        		return;
+	        	}else if(products.isEmpty()) {
+	        		return;
+	        	}else if(customers.isEmpty()) {
+	        		return;
+	        	}else if(customer.getCredits().isEmpty()) {
+  	        		return;
+  	        	}
   	        }
   	    }
 
