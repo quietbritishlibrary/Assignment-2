@@ -112,7 +112,7 @@ class TestSBA {
 		System.out.println("PART 6 - Saving file ..............................(1pt)");
 		manager.save(filename,customers); 		// 1pt
 		System.out.println("PART 7 - Loading file .............................(1pt)");
-		manager.load(filename); 		// 1pt
+		manager.load(filename); 		// 1pt   
 		System.out.println("PART 8 - Printing data ...........................(3pts)");
 		manager.show(customers); 	// 3pts
 		 System.out.println("[Test end] ::::::::::::::::::::::::::::::::::::::::::::");

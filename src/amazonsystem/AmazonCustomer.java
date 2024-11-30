@@ -209,7 +209,7 @@ public class AmazonCustomer {
      * AmazonCredits method for formatting and printing the customers.
      */
 	 public String toString() {
-		return String.format("Customer: - Customer: [Id: %d], [Name: %s], [Address: %s]", id, name, address);
+		return String.format("- Customer: [Id: %d], [Name: %s], [Address: %s]", id, name, address);
 	}
 	 /*
 	public boolean pay(AmazonCredit money) {

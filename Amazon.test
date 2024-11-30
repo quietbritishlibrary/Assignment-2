@@ -1,5 +1,5 @@
 SHOWING AMAZON DATA .....................
-Customer: Customer: - Customer: [Id: 1], [Name: Paulo], [Address: Ottawa]
+- Customer: [Id: 1], [Name: Paulo], [Address: Ottawa]
 - Credit List:
 [- Credit [0]: Type: Cash, value: 100.00 ]
 - Wish list: [No wish list]
@@ -8,7 +8,7 @@ Customer: Customer: - Customer: [Id: 1], [Name: Paulo], [Address: Ottawa]
   - Comment[0]: ProdId: 1 - Comment: Nice product - rating: 5.00
   - Comment[1]: ProdId: 2 - Comment: Nice product - rating: 5.00
 
-Customer: Customer: - Customer: [Id: 2], [Name: Lilia], [Address: Halifax]
+- Customer: [Id: 2], [Name: Lilia], [Address: Halifax]
 - Credit List:
 [- Credit [1]: Type: Check, value: 50.00 ]
 - Wishlist:
