@@ -211,19 +211,32 @@ public class AmazonCustomer {
 	 public String toString() {
 		return String.format("- Customer: [Id: %d], [Name: %s], [Address: %s]", id, name, address);
 	}
-	 /*
+	 
 	public boolean pay(AmazonCredit money) {
 		 float total = cart.calcSubTotal();
+		 float pay = money.getAmount();
+		 List <AmazonCartItem> itemsList = getCart().getItems();
+		 AmazonComment comment = null;
 		 
-		   if(money.getAmount() >= total ) {
-			   this.cart.getItems().removeAll(cart.getItems());
+		 
+		 
+		   if(pay >= total ) {
+			   money.setAmount(total - pay);
+			   //makes 2 comments
+			   for(AmazonCartItem p: itemsList) { 
+				   AmazonProduct product = p.getProduct();
+				   comment = new AmazonComment(product);
+				   addComment(comment);
+			   }
+			   itemsList.clear();
+	
 			   return true;
 		   }else {
 			   return false;
 		   }
 		  
 		 }
-	*/
+	
 	
 	public boolean pay(int index) {
 		 float total = cart.calcSubTotal();

@@ -302,8 +302,9 @@ public class AmazonManager {
   	
   	/**
      * AmazonManager method used for adding credit type and amounts to customers
+  	 * @throws AmazonException 
      */
-  	public void addCreditToCustomer() {
+  	public void addCreditToCustomer() throws AmazonException {
   	    String id = "";
   	    int size = customers.size();
   	    AmazonCustomer customer = null;
@@ -311,6 +312,11 @@ public class AmazonManager {
   	    
   	    while (true) {
   	        try {
+  	        	
+  	        	if(customers.isEmpty()) {
+  	        		throw new AmazonException("AmazonException: You must add a user before assigning credit!");
+  	        	}
+  	        	
   	            System.out.print("Enter the Customer ID: ");
   	            id = input.nextLine();
 
@@ -337,6 +343,9 @@ public class AmazonManager {
 
   	        } catch (AmazonException e) {
   	            System.out.println(e.getLocalizedMessage());
+  	          if(customers.isEmpty()) {
+	            	return;
+	            }
   	        }
   	    }
   	    
@@ -403,6 +412,7 @@ public class AmazonManager {
   	            
   	        } catch (AmazonException e) {
   	            System.out.println(e.getLocalizedMessage());
+  	           
   	        }
   	    }
   	}
@@ -462,6 +472,15 @@ public class AmazonManager {
 
   	    while (true) {
   	        try {
+  	        	
+  	        	if(products.isEmpty() && customers.isEmpty()) {
+  	        		throw new AmazonException("AmazonException: You must add both users and products before adding a product to your wishlist.");
+  	        	}else if(products.isEmpty()) {
+  	        		throw new AmazonException("AmazonException: There are no products to be added; please load products and try again.");
+  	        	}else if(customers.isEmpty()) {
+  	        		throw new AmazonException("AmazonException: You must add a user before adding a product to your wishlist.");
+  	        	}
+  	        	
   	            System.out.print("Enter the Customer ID: ");
   	            customerId = input.nextLine();
 
@@ -487,6 +506,14 @@ public class AmazonManager {
 
   	        } catch (AmazonException e) {
   	            System.out.println(e.getLocalizedMessage());
+  	            
+  	          if(products.isEmpty() && customers.isEmpty()) {
+	        		return;
+	        	}else if(products.isEmpty()) {
+	        		return;
+	        	}else if(customers.isEmpty()) {
+	        		return;
+	        	}
   	        }
   	    }
 
@@ -543,6 +570,13 @@ public class AmazonManager {
 
   	    while (true) {
   	        try {
+  	        	if(products.isEmpty() && customers.isEmpty()) {
+  	        		throw new AmazonException("AmazonException: You must add both users and products to remove a product from your wishlist.");
+  	        	}else if(products.isEmpty()) {
+  	        		throw new AmazonException("AmazonException: There are no products to be removed; please load products and try again.");
+  	        	}else if(customers.isEmpty()) {
+  	        		throw new AmazonException("AmazonException: You must add a user before removing a product from your wishlist.");
+  	        	}
   	            
   	            System.out.print("Enter the Customer ID: ");
   	            customerId = input.nextLine();
@@ -571,6 +605,14 @@ public class AmazonManager {
 
   	        } catch (AmazonException e) {
   	            System.out.println(e.getLocalizedMessage());
+  	            
+  	          if(products.isEmpty() && customers.isEmpty()) {
+	        		return;
+	        	}else if(products.isEmpty()) {
+	        		return;
+	        	}else if(customers.isEmpty()) {
+	        		return;
+	        	}
   	        }
   	    }
 
@@ -871,11 +913,10 @@ public class AmazonManager {
   	                    if (creditType == PaymentType.Cash) {
   	                        AmazonCredit credit = customer.getCredits().get(i);
   	                        System.out.println("Payment type is cash");
-  	                        float total = credit.getAmount() - customer.getCart().calcSubTotal();
-  	                      if(total < 0) {
+  	                      if(customer.pay(credit) == false) {
 	                        	throw new AmazonException("AmazonException: You dont have enough credits of cash, try a different payment method.");
 	                        }
-  	                        System.out.println("Customer credit updated: " + total);
+  	                        System.out.println("Customer credit updated: " + credit);
   	                        break;
   	                    }
   	                }
@@ -888,11 +929,10 @@ public class AmazonManager {
   	                    if (creditType == PaymentType.Check) {
   	                        AmazonCredit credit = customer.getCredits().get(i);
   	                        System.out.println("Payment type is check");
-  	                        float total = credit.getAmount() - customer.getCart().calcSubTotal();
-  	                        if(total < 0) {
+  	                        if(customer.pay(credit) == false) {
   	                        	throw new AmazonException("AmazonException: You dont have enough credits on your check, try a different payment method.");
   	                        }
-  	                        System.out.println("Customer credit updated: " + total);
+  	                        System.out.println("Customer credit updated: " + credit);
   	                        break;
   	                    }
   	                }
@@ -904,11 +944,11 @@ public class AmazonManager {
   	                    if (creditType == PaymentType.Card) {
   	                        AmazonCredit credit = customer.getCredits().get(i);
   	                        System.out.println("Payment type is card");
-  	                        float total = credit.getAmount() - customer.getCart().calcSubTotal();
-  	                      if(total < 0) {
+  	                        
+  	                      if(customer.pay(credit) == false ) {
 	                        	throw new AmazonException("AmazonException: You dont have enough credits on your card, try a different payment method.");
 	                        }
-  	                        System.out.println("Customer credit updated: " + total);
+  	                        System.out.println("Customer credit updated: " + credit);
   	                        break;
   	                    }
   	                }
@@ -925,10 +965,10 @@ public class AmazonManager {
 
   	    }
   	    
-  	    //break;
+  	    break;
   	
   	  }
-  	  //System.out.println("Cart empty - you can comment products now.");
+  	  System.out.println("Cart empty - you can comment products now.");
 
   	}
   	
