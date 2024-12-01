@@ -1,51 +1,75 @@
 package amazonsystem;
 
+/**
+ * Represents an item in an Amazon cart, including the product and its quantity.
+ */
 public class AmazonCartItem {
-	
-	private AmazonProduct product;
-	private int quantity;
-	
-	/**
-     * AmazonCartItem parameterized-constructor
-     * @param an AmazonProduct object and the quantity of items.
+
+    /**
+     * The product associated with this cart item.
      */
-	
-	public AmazonCartItem(AmazonProduct myProduct, int myQuantity) {
-		product = myProduct;
-		quantity = myQuantity;
-	}
-	
-	/**
-     * Method for calculating the sub-total of an AmazonProduct based on price and the quantity.
-     * @return The float value of the price for the given quantity of items.
+    private AmazonProduct product;
+
+    /**
+     * The quantity of the product in the cart.
      */
-	
-	public float calcSubTotal() {
-		return quantity * product.getActual_Price();
-	}
+    private int quantity;
 
-	// getter and setters 
-	
-	public AmazonProduct getProduct() {
-		return product;
-	}
+    /**
+     * Constructs an `AmazonCartItem` with the specified product and quantity.
+     *
+     * @param myProduct the product to be added to the cart
+     * @param myQuantity the quantity of the product
+     */
+    public AmazonCartItem(AmazonProduct myProduct, int myQuantity) {
+        product = myProduct;
+        quantity = myQuantity;
+    }
 
-	public void setProduct(AmazonProduct product) {
-		this.product = product;
-	}
+    /**
+     * Calculates the subtotal for the cart item based on the product price and quantity.
+     *
+     * @return the subtotal as a float value
+     */
+    public float calcSubTotal() {
+        return quantity * product.getActual_Price();
+    }
 
-	public int getQuantity() {
-		return quantity;
-	}
+    // Getters and Setters
 
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-	
-	
-	
-	
-	
-	
+    /**
+     * Retrieves the product associated with this cart item.
+     *
+     * @return the `AmazonProduct` object
+     */
+    public AmazonProduct getProduct() {
+        return product;
+    }
 
+    /**
+     * Updates the product associated with this cart item.
+     *
+     * @param product the new `AmazonProduct` to associate with this cart item
+     */
+    public void setProduct(AmazonProduct product) {
+        this.product = product;
+    }
+
+    /**
+     * Retrieves the quantity of the product in the cart.
+     *
+     * @return the quantity as an integer
+     */
+    public int getQuantity() {
+        return quantity;
+    }
+
+    /**
+     * Updates the quantity of the product in the cart.
+     *
+     * @param quantity the new quantity to set
+     */
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 }

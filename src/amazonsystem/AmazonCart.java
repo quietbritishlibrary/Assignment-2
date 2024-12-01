@@ -2,185 +2,206 @@ package amazonsystem;
 
 import java.util.ArrayList;
 
+/**
+ * Represents an Amazon shopping cart, containing items and functionality for checkout.
+ * Implements the `Payable` interface for payment processing.
+ */
 public class AmazonCart implements Payable {
-	
-	//AmazonCart Properties
-	private AmazonCustomer customer;
-	private ArrayList <AmazonCartItem> items = new ArrayList <AmazonCartItem>();
-	private float totalValue;
-	
-	/**
-     * AmazonCart parameterized-constructor
-     * @param The customer to whom the cart belongs.
+    
+    /**
+     * The customer to whom this cart belongs.
      */
-	public AmazonCart(AmazonCustomer myCustomer){
-		customer = myCustomer;
-	}
-	
-	/**
-     * AmazonCart default constructor
+    private AmazonCustomer customer;
+
+    /**
+     * A list of items in the cart, each represented by an `AmazonCartItem` object.
      */
-	public AmazonCart() {}
-	
-	/**
-     * AmazonCart sub-total calculation method.
-     * @return the sum of each items sub-total in the users cart.
+    private ArrayList<AmazonCartItem> items = new ArrayList<AmazonCartItem>();
+
+    /**
+     * The total value of all items in the cart (subtotal).
      */
-	public float calcSubTotal() {
-		float total = 0;
-		
-		for(AmazonCartItem i: items) {
-			if(i != null) {
-				total += i.calcSubTotal();
-			}
-			
-		}
-		
-		return total;
-	}
-	
-	/**
-     * AmazonCart item finding method.
-     * @param the id related to the product that the user wants to get.
-     * @return the associated product in the AmazonCartItem list.
+    private float totalValue;
+
+    /**
+     * Constructs an `AmazonCart` object for the specified customer.
+     * 
+     * @param myCustomer the customer to whom the cart belongs
      */
-	public AmazonCartItem  getItem(int id) {
-		int size = items.size();
-		
-		for(int i = 0; i < size; i++ ) {
-			int productId = items.get(i).getProduct().getId(); //variable points to each AmazonProduct id through AmazonCartItem class product getter
-			if(productId == id) {
-				return items.get(i);
-			}
-		}
-		
-		return null;
-	}
-	
-	/**
-     * AmazonCart method for checking if a product exists within the AmazonCartItem ArrayList.
-     * @param the product that the user wants to check.
-     * @return true or false based on if the product is or isn't in the list.
+    public AmazonCart(AmazonCustomer myCustomer) {
+        customer = myCustomer;
+    }
+
+    /**
+     * Default constructor for an empty cart.
      */
-	public boolean hasItem(AmazonProduct product) {
-		int size = items.size();
-		
-		for(int i = 0; i < size; i++) {
-			AmazonProduct currentProduct = items.get(i).getProduct(); //points to current AmazonProduct through AmazonCartItem class product getter
-			if (currentProduct.equals(product)) {
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	/**
-     * AmazonCart method for checking if the amount paid is greater than or equal to the total cost of the items in their cart.
-     * @param the amount the customer is paying.
-     * @return true or false based on if the amount paid is or isn't enough.
+    public AmazonCart() {}
+
+    /**
+     * Calculates the subtotal of the cart by summing the subtotal of each item.
+     * 
+     * @return the sum of each item's subtotal in the cart
      */
-	
-	@Override
-	public boolean pay(float amountPaid) {
-		 float totalCost = calcSubTotal();
-		 
-		   if(amountPaid >= totalCost ) {
-			   return true;
-		   }else {
-			   return false;
-		   }
-		  
-		}
+    public float calcSubTotal() {
+        float total = 0;
+        for (AmazonCartItem i : items) {
+            if (i != null) {
+                total += i.calcSubTotal();
+            }
+        }
+        return total;
+    }
 
-	/**
-     * AmazonCart method for adding items to the cart
-     * @param the AmazonCartItem the customer wants to add.
+    /**
+     * Finds and returns the `AmazonCartItem` with the specified product ID.
+     * 
+     * @param id the product ID of the item to find
+     * @return the `AmazonCartItem` associated with the specified product ID, or `null` if not found
      */
-	public void addItem(AmazonCartItem item) {
-		items.add(item);
-	}
-	
-	/**
-     * AmazonCart method for removing items to the cart
-     * @param the AmazonProduct the customer wants to remove.
+    public AmazonCartItem getItem(int id) {
+        int size = items.size();
+        for (int i = 0; i < size; i++) {
+            int productId = items.get(i).getProduct().getId();
+            if (productId == id) {
+                return items.get(i);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Checks if a given product exists in the cart.
+     * 
+     * @param product the product to check for in the cart
+     * @return `true` if the product is in the cart, otherwise `false`
      */
-	public void removeItem(AmazonProduct product) {
-		int size = items.size();
-		for(int i = 0; i < size; i++) {
-			AmazonProduct currentProduct = items.get(i).getProduct();
-			if(currentProduct.equals(product)) {
-				items.remove(i);
-				break;
-			}
-		}
-		
-		
-	}
-	
-	
-	/**
-     * AmazonCart method for formatting and printing its information using StringBuilder
-     * @return the information about the cart.
+    public boolean hasItem(AmazonProduct product) {
+        int size = items.size();
+        for (int i = 0; i < size; i++) {
+            AmazonProduct currentProduct = items.get(i).getProduct();
+            if (currentProduct.equals(product)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks if the payment amount is sufficient to cover the total cost of the cart.
+     * 
+     * @param amountPaid the amount of money being paid
+     * @return `true` if the payment is sufficient, otherwise `false`
      */
-	@Override
-	public String toString() {
-	    String customerName = customer.getName();
-	    StringBuilder report = new StringBuilder();  
-	    float totalValue = calcSubTotal();
+    @Override
+    public boolean pay(float amountPaid) {
+        float totalCost = calcSubTotal();
+        return amountPaid >= totalCost;
+    }
 
-	    
-	    report.append(String.format("[Customer: %s]\n", customerName));
+    /**
+     * Adds an `AmazonCartItem` to the cart.
+     * 
+     * @param item the `AmazonCartItem` to add to the cart
+     */
+    public void addItem(AmazonCartItem item) {
+        items.add(item);
+    }
 
-	    for (AmazonCartItem item : items) {
-	        AmazonProduct product = item.getProduct();
-	        int productId = product.getId();
-	        int quantity = item.getQuantity();
-	        String productName = product.getName();
-	        
-	        
-	        report.append(String.format("- Item[ID: %d, Name: %s], quantity = %d\n", productId, productName, quantity));
-	    }
-	    
-	   
+    /**
+     * Removes an `AmazonProduct` from the cart by matching it with an item in the cart.
+     * 
+     * @param product the `AmazonProduct` to remove from the cart
+     */
+    public void removeItem(AmazonProduct product) {
+        int size = items.size();
+        for (int i = 0; i < size; i++) {
+            AmazonProduct currentProduct = items.get(i).getProduct();
+            if (currentProduct.equals(product)) {
+                items.remove(i);
+                break;
+            }
+        }
+    }
 
-	    report.append(String.format("* Total value: %.2f", totalValue));
+    /**
+     * Returns a string representation of the cart, including customer name, items, and total value.
+     * 
+     * @return a formatted string showing the cart details
+     */
+    @Override
+    public String toString() {
+        String customerName = customer.getName();
+        StringBuilder report = new StringBuilder();
+        float totalValue = calcSubTotal();
 
-	    return report.toString();  
-	}
+        report.append(String.format("[Customer: %s]\n", customerName));
 
-	
-	
-	
-	
-	//getters and setters
-	
-	public AmazonCustomer getCustomer() {
-		return customer;
-	}
+        for (AmazonCartItem item : items) {
+            AmazonProduct product = item.getProduct();
+            int productId = product.getId();
+            int quantity = item.getQuantity();
+            String productName = product.getName();
+            report.append(String.format("- Item[ID: %d, Name: %s], quantity = %d\n", productId, productName, quantity));
+        }
 
-	public void setCustomer(AmazonCustomer customer) {
-		this.customer = customer;
-	}
+        report.append(String.format("* Total value: %.2f", totalValue));
 
-	public ArrayList<AmazonCartItem> getItems() {
-		return items;
-	}
+        return report.toString();
+    }
 
-	public void setItems(ArrayList<AmazonCartItem> items) {
-		this.items = items;
-	}
+    // Getters and Setters
 
-	public float getTotalValue() {
-		return totalValue;
-	}
+    /**
+     * Retrieves the customer associated with this cart.
+     * 
+     * @return the `AmazonCustomer` object associated with this cart
+     */
+    public AmazonCustomer getCustomer() {
+        return customer;
+    }
 
-	public void setTotalValue(float totalValue) {
-		this.totalValue = totalValue;
-	}
+    /**
+     * Sets the customer associated with this cart.
+     * 
+     * @param customer the `AmazonCustomer` to set as the cart's owner
+     */
+    public void setCustomer(AmazonCustomer customer) {
+        this.customer = customer;
+    }
 
-	
-	
-	
+    /**
+     * Retrieves the list of items in the cart.
+     * 
+     * @return an `ArrayList` of `AmazonCartItem` objects in the cart
+     */
+    public ArrayList<AmazonCartItem> getItems() {
+        return items;
+    }
 
+    /**
+     * Sets the list of items in the cart.
+     * 
+     * @param items the `ArrayList` of `AmazonCartItem` objects to set in the cart
+     */
+    public void setItems(ArrayList<AmazonCartItem> items) {
+        this.items = items;
+    }
+
+    /**
+     * Retrieves the total value of the cart.
+     * 
+     * @return the total value (subtotal) of all items in the cart
+     */
+    public float getTotalValue() {
+        return totalValue;
+    }
+
+    /**
+     * Sets the total value of the cart.
+     * 
+     * @param totalValue the total value (subtotal) to set for the cart
+     */
+    public void setTotalValue(float totalValue) {
+        this.totalValue = totalValue;
+    }
 }

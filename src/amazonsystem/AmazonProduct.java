@@ -1,120 +1,174 @@
 package amazonsystem;
 
+/**
+ * Represents a product listed on Amazon, including its attributes such as ID, name, category, 
+ * sub-category, pricing, ratings, and other details.
+ */
 public class AmazonProduct {
-	
-	//field
-	private int id;
-	private String name;
-	AmazonProductCategory category;
-	AmazonProductSubCategory subCategory;
-	private String imageURL;
-	private String link;
-	private float rating;
-	private int nRatings;
-	private float discountPrice;
-	private float actualPrice;
-	private String[] title;
-	
-	// parameterized constructor
-	public AmazonProduct(int myId, String myName, AmazonProductCategory myCategory, AmazonProductSubCategory mySubCategory, String myImageURL, String myLink, float myRating, int my_nRating, float myDiscountPrice, float myActualPrice ) {
-		id = myId;
-		name = myName;
-		category = myCategory;
-		subCategory = mySubCategory;
-		imageURL =  myImageURL;
-		link = myLink;
-		rating = myRating;
-		nRatings = my_nRating;
-		discountPrice = myDiscountPrice;
-		actualPrice= myActualPrice;
-		
-	};
-	
-	// no-arg constructor
-	public AmazonProduct() {}
-	
-	//method for creating an object
-	public static AmazonProduct createAmazonProduct(String [] data) {
-		   
-		   if(data == null) {
 
-			   return null;
-			   
-		   } else if(data.length != 10) {
-			   return null;
-		   }
-		   
-		   
-		   
-			    int id = Integer.parseInt(data[0]);
-				String name = data[1];
-		        AmazonProductCategory category = new AmazonProductCategory (data[2]);
-		        AmazonProductSubCategory subCategory = new AmazonProductSubCategory(data[3],category);
-				String imageURL = data[4];
-				String link = data[5];
-				float rating = Float.parseFloat(data[6]);
-				int nRatings = Integer.parseInt(data[7].replace(",", ""));
-				float discountPrice = Float.parseFloat(data[8]);
-				float actualPrice = Float.parseFloat(data[9]);
-				
-				if (id < 1 || 
-					    name == null || name.isBlank() || 
-					    category == null || category.toString().isBlank() || 
-					    subCategory == null || subCategory.toString().isBlank() || 
-					    imageURL == null || imageURL.isBlank() || 
-					    link == null || link.isBlank() || 
-					    rating < 0 || rating > 5 || 
-					    nRatings < 0 || 
-					    discountPrice < 0 || 
-					    actualPrice < 0 || actualPrice < discountPrice) { 
-					    return null;
-					}
-				
-				AmazonProduct product = new AmazonProduct(data);
-  
-				return product;
-		
-		}
+    /**
+     * The unique identifier for the product.
+     */
+    private int id;
 
-	
-	// constructor used to assign substrings to appropriately parsed AmazonProduct property
-	public AmazonProduct(String [] data) {
-		this.id = Integer.parseInt(data[0]);
-		this.name = data[1];
-		this.category = new AmazonProductCategory (data[2]);
-		this.subCategory = new AmazonProductSubCategory(data[3],category);
-		this.imageURL = data[4];
-		this.link = data[5];
-		this.rating = AmazonUtil.convertStrToFloat(data[6]);
-		this.nRatings = Integer.parseInt(data[7].replace(",", ""));
-		this.discountPrice = AmazonUtil.convertStrToFloat(data[8]);
-		this.actualPrice = AmazonUtil.convertStrToFloat(data[9]);
-	}
-	
-	//formats appropriate string to display AmazonProduct data
-	@Override
-	public String toString () {
-		String report = "";
-				
-		report = "[" + id + ", " + name + ", " + category.getCategory() + ", " + subCategory.getSubCategory() + ", " + imageURL  + ", " + link + ", " + rating + ", " + nRatings + ", " + discountPrice + ", " + actualPrice + "]";
-		return report;
-	}
-	
-	// toString method specialized for CSV format
-	public String toCSV () {
-		String report = "";
-				
-		report = "\"" + id + "\",\"" + name + "\",\"" + 
-		           category.getCategory() + "\",\"" + 
-		           subCategory.getSubCategory() + "\",\"" + 
-		           imageURL + "\",\"" + link + "\",\"" + 
-		           rating + "\",\"" + nRatings + "\",\"" + 
-		           discountPrice + "\",\"" + actualPrice + "\"";		
-		           return report;
-	}
-	
-	
-	// getters
+    /**
+     * The name of the product.
+     */
+    private String name;
+
+    /**
+     * The main category of the product.
+     */
+    AmazonProductCategory category;
+
+    /**
+     * The sub-category of the product.
+     */
+    AmazonProductSubCategory subCategory;
+
+    /**
+     * The URL of the product image.
+     */
+    private String imageURL;
+
+    /**
+     * The URL link to the product page.
+     */
+    private String link;
+
+    /**
+     * The rating of the product (out of 5).
+     */
+    private float rating;
+
+    /**
+     * The number of ratings the product has received.
+     */
+    private int nRatings;
+
+    /**
+     * The discounted price of the product.
+     */
+    private float discountPrice;
+
+    /**
+     * The actual price of the product without discounts.
+     */
+    private float actualPrice;
+
+    /**
+     * Titles or additional descriptions associated with the product.
+     */
+    private String[] title;
+
+    /**
+     * Constructs a parameterized `AmazonProduct` with specified attributes.
+     *
+     * @param myId the unique ID of the product
+     * @param myName the name of the product
+     * @param myCategory the main category of the product
+     * @param mySubCategory the sub-category of the product
+     * @param myImageURL the URL of the product image
+     * @param myLink the URL link to the product page
+     * @param myRating the product's rating
+     * @param my_nRating the number of ratings the product has
+     * @param myDiscountPrice the discounted price of the product
+     * @param myActualPrice the actual price of the product without discounts
+     */
+    private AmazonProduct(int myId, String myName, AmazonProductCategory myCategory, AmazonProductSubCategory mySubCategory, String myImageURL, String myLink, float myRating, int my_nRating, float myDiscountPrice, float myActualPrice) {
+        id = myId;
+        name = myName;
+        category = myCategory;
+        subCategory = mySubCategory;
+        imageURL = myImageURL;
+        link = myLink;
+        rating = myRating;
+        nRatings = my_nRating;
+        discountPrice = myDiscountPrice;
+        actualPrice = myActualPrice;
+    }
+
+    /**
+     * Default no-argument constructor.
+     */
+    private AmazonProduct() {}
+
+    /**
+     * Creates an `AmazonProduct` object from an array of string data.
+     *
+     * @param data an array containing product attributes as strings
+     * @return a new `AmazonProduct` object or null if the data is invalid
+     */
+    public static AmazonProduct createAmazonProduct(String[] data) {
+        if (data == null || data.length != 10) {
+            return null;
+        }
+
+        int id = Integer.parseInt(data[0]);
+        String name = data[1];
+        AmazonProductCategory category = new AmazonProductCategory(data[2]);
+        AmazonProductSubCategory subCategory = new AmazonProductSubCategory(data[3], category);
+        String imageURL = data[4];
+        String link = data[5];
+        float rating = Float.parseFloat(data[6]);
+        int nRatings = Integer.parseInt(data[7].replace(",", ""));
+        float discountPrice = Float.parseFloat(data[8]);
+        float actualPrice = Float.parseFloat(data[9]);
+
+        if (id < 1 || name.isBlank() || category == null || subCategory == null || 
+            imageURL.isBlank() || link.isBlank() || rating < 0 || rating > 5 || 
+            nRatings < 0 || discountPrice < 0 || actualPrice < 0 || actualPrice < discountPrice) {
+            return null;
+        }
+
+        return new AmazonProduct(data);
+    }
+
+    /**
+     * Constructs an `AmazonProduct` object by parsing an array of string data.
+     *
+     * @param data an array containing product attributes as strings
+     */
+    public AmazonProduct(String[] data) {
+        this.id = Integer.parseInt(data[0]);
+        this.name = data[1];
+        this.category = new AmazonProductCategory(data[2]);
+        this.subCategory = new AmazonProductSubCategory(data[3], category);
+        this.imageURL = data[4];
+        this.link = data[5];
+        this.rating = AmazonUtil.convertStrToFloat(data[6]);
+        this.nRatings = Integer.parseInt(data[7].replace(",", ""));
+        this.discountPrice = AmazonUtil.convertStrToFloat(data[8]);
+        this.actualPrice = AmazonUtil.convertStrToFloat(data[9]);
+    }
+
+    /**
+     * Formats the product details as a string.
+     *
+     * @return a string representation of the product
+     */
+    @Override
+    public String toString() {
+        return "[" + id + ", " + name + ", " + category.getCategory() + ", " + 
+               subCategory.getSubCategory() + ", " + imageURL + ", " + link + 
+               ", " + rating + ", " + nRatings + ", " + discountPrice + ", " + actualPrice + "]";
+    }
+
+    /**
+     * Formats the product details as a CSV string.
+     *
+     * @return a CSV-formatted string of the product details
+     */
+    public String toCSV() {
+        return "\"" + id + "\",\"" + name + "\",\"" + 
+               category.getCategory() + "\",\"" + subCategory.getSubCategory() + 
+               "\",\"" + imageURL + "\",\"" + link + "\",\"" + rating + 
+               "\",\"" + nRatings + "\",\"" + discountPrice + "\",\"" + actualPrice + "\"";
+    }
+
+    /**
+     * All of the AmazonProduct getters
+     */
 	
 	public float getActual_Price() {
 		return actualPrice;
@@ -160,7 +214,9 @@ public class AmazonProduct {
 		return imageURL;
 	}
 	
-    //setters 
+	/**
+     * All of the AmazonProduct Setters
+     */
 	
 	public void setActual_Price(float myActualPrice) {
 		actualPrice = myActualPrice;
@@ -207,9 +263,5 @@ public class AmazonProduct {
 	}
 	
 
-	
-
-	
-	
 
 }

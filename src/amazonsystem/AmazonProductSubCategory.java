@@ -1,37 +1,66 @@
 package amazonsystem;
 
+/**
+ * Represents a sub-category of products in the Amazon system.
+ * Each sub-category is associated with a specific product category.
+ */
 public class AmazonProductSubCategory {
-    
-    // Instance variables to hold the sub-category name and associated product category
-    private String subCategoryName;      
-    private AmazonProductCategory category;  
-    
-    // No-argument constructor for creating an empty AmazonProductSubCategory object
+
+    /**
+     * The name of the sub-category.
+     */
+    private String subCategoryName;
+
+    /**
+     * The product category associated with this sub-category.
+     */
+    private AmazonProductCategory category;
+
+    /**
+     * Default constructor for creating an empty AmazonProductSubCategory object.
+     */
     public AmazonProductSubCategory() {}
-    
-    // Parameterized constructor for initializing an AmazonProductSubCategory with a name and category
+
+    /**
+     * Constructs an AmazonProductSubCategory with the specified name and category.
+     *
+     * @param mySubCategoryName the name of the sub-category
+     * @param myCategory the product category associated with this sub-category
+     */
     public AmazonProductSubCategory(String mySubCategoryName, AmazonProductCategory myCategory) {
-        subCategoryName = mySubCategoryName;  
-        category = myCategory;                 
+        subCategoryName = mySubCategoryName;
+        category = myCategory;
     }
-    
-    // Getter method to retrieve the product category associated with this sub-category
+
+    /**
+     * Retrieves the product category associated with this sub-category.
+     * @return the product category associated with this sub-category
+     */
     public AmazonProductCategory getCategory() {
-        return category;  
+        return category;
     }
-    
-    // Getter method to retrieve the name of the sub-category
+
+    /**
+     * Retrieves the name of the sub-category.
+     * @return the name of the sub-category
+     */
     public String getSubCategory() {
-        return subCategoryName;  
+        return subCategoryName;
     }
-    
-    // Setter method to update the product category associated with this sub-category
+
+    /**
+     * Updates the product category associated with this sub-category.
+     * @param myCategory the new product category to associate with this sub-category
+     */
     public void setCategory(AmazonProductCategory myCategory) {
-        category = myCategory;  
+        category = myCategory;
     }
-    
-    // Setter method to update the name of the sub-category
+
+    /**
+     * Updates the name of the sub-category.
+     * @param mySubCategoryName the new name for the sub-category
+     */
     public void setSubCategory(String mySubCategoryName) {
-        subCategoryName = mySubCategoryName; 
+        subCategoryName = mySubCategoryName;
     }
 }

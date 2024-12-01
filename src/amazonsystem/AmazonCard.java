@@ -1,121 +1,119 @@
 package amazonsystem;
 
-import amazonsystem.AmazonCredit.PaymentType;
-
+/**
+ * Represents a card payment in the Amazon system, extending the `AmazonCredit` class.
+ */
 public class AmazonCard extends AmazonCredit {
-	
-	//properties
-	private String number;
-	private String expiration;
-	
-	/**
-     * AmazonCard parameterized constructor
-     * @param myNumber - card number
-     * @param myExpiration - expiration date (MM/YYYY)
-     * @param myAmount - the amount on the card
+
+    /**
+     * The card number associated with this payment.
      */
-	private AmazonCard(String myNumber, String myExpiration, float myAmount ) {
-		super(myAmount);
-		number = myNumber;
-		expiration = myExpiration;
-		setType(PaymentType.Card);
-	}
-	
-	/**
-     * AmazonCard constructor for assigning the substrings to variables
-     * @param String array of substrings of the check data.
+    private String number;
+
+    /**
+     * The expiration date of the card, in MM/YYYY format.
      */
-	private AmazonCard(String [] data ) {
-		
-		super(Float.parseFloat(data[2]));
-		String number = data[0];
-		String expiration = data[1];
-		setType(PaymentType.Card);
-	}
-	
-	
-	
-	
-	
-	/**
-     * AmazonCard method used to create AmazonCard objects as long as they aren't null
-     * @param String array of substrings of the checks data.
+    private String expiration;
+
+    /**
+     * Constructs an `AmazonCard` object with the specified card number, expiration date, and amount.
+     *
+     * @param myNumber the card number
+     * @param myExpiration the expiration date of the card in MM/YYYY format
+     * @param myAmount the amount of money available on the card
      */
-	
-	public static AmazonCard createCard(String [] data) {
-		
-		   
-		   if(data == null || data.length != 3) {
-			   return null;
-			   
-		   } 
-		   
-		   float amount;
-		   
-		   try {
-		   		
-		         amount = Float.parseFloat(data[2]);
-				 
-				
-		   }catch(NumberFormatException e) {
-			   return null;
-		   }
-		   
-		   	 String number = data[0];
-			 String expiration = data[1];	
-		   
-				if(number.isBlank() || number.isEmpty() || expiration.isBlank() || expiration.isEmpty() || amount < 0) {
-					return null;
-				}
-				
-				AmazonCard card = new AmazonCard(data);
-				
-				
-				   
-				return card;
-		
-		}
-	
-	@Override
-    public String toString() {
-        return super.toString();  
+    private AmazonCard(String myNumber, String myExpiration, float myAmount) {
+        super(myAmount);
+        number = myNumber;
+        expiration = myExpiration;
+        setType(PaymentType.Card);
     }
-	
-	
-	//getters and setters
 
-	public String getNumber() {
-		return number;
-	}
+    /**
+     * Constructs an `AmazonCard` object using data parsed from a string array.
+     *
+     * @param data a string array containing the card number, expiration date, and amount
+     */
+    private AmazonCard(String[] data) {
+        super(Float.parseFloat(data[2]));
+        this.number = data[0];
+        this.expiration = data[1];
+        setType(PaymentType.Card);
+    }
 
-	public void setNumber(String number) {
-		this.number = number;
-	}
+    /**
+     * Creates an `AmazonCard` object from a string array, validating the input data.
+     *
+     * @param data a string array containing the card number, expiration date, and amount
+     * @return an `AmazonCard` object if the input is valid, or `null` otherwise
+     */
+    public static AmazonCard createCard(String[] data) {
+        if (data == null || data.length != 3) {
+            return null;
+        }
 
-	public String getExpiration() {
-		return expiration;
-	}
+        float amount;
+        try {
+            amount = Float.parseFloat(data[2]);
+        } catch (NumberFormatException e) {
+            return null;
+        }
 
-	public void setExpiration(String expiration) {
-		this.expiration = expiration;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	//to string: Prints the credit (showing credit type, credit number, expiration
-	//and value).
+        String number = data[0];
+        String expiration = data[1];
 
+        if (number.isBlank() || number.isEmpty() || expiration.isBlank() || expiration.isEmpty() || amount < 0) {
+            return null;
+        }
+
+        return new AmazonCard(data);
+    }
+
+    /**
+     * Returns a string representation of the card payment.
+     *
+     * @return a formatted string representing the card payment details
+     */
+    @Override
+    public String toString() {
+        return super.toString();
+    }
+
+    // Getters and Setters
+
+    /**
+     * Retrieves the card number associated with this payment.
+     *
+     * @return the card number as a string
+     */
+    public String getNumber() {
+        return number;
+    }
+
+    /**
+     * Updates the card number associated with this payment.
+     *
+     * @param number the new card number to set
+     */
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    /**
+     * Retrieves the expiration date of the card.
+     *
+     * @return the expiration date in MM/YYYY format
+     */
+    public String getExpiration() {
+        return expiration;
+    }
+
+    /**
+     * Updates the expiration date of the card.
+     *
+     * @param expiration the new expiration date to set (MM/YYYY format)
+     */
+    public void setExpiration(String expiration) {
+        this.expiration = expiration;
+    }
 }

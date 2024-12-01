@@ -1,51 +1,80 @@
 package amazonsystem;
 
+/**
+ * Represents an abstract Amazon credit, providing common functionality for handling credit payments.
+ */
 public abstract class AmazonCredit {
-	
-	enum PaymentType {Cash, Check, Card}
-	private float amount;
-	private PaymentType type;
-	
-	/**
-     * superclass super() AmazonCredit's constructor 
-     * @param amount of money on the payment type.
+
+    /**
+     * Enum representing the types of payments supported.
      */
-	public AmazonCredit(float myAmount){
-		amount = myAmount;
+    enum PaymentType {
+        Cash, Check, Card
+    }
 
-	}
-	
-	/**
-     * Abstract class AmazonCredit's toString() method
-     * @return formatted AmazonCredit information based on user inputs.
+    /**
+     * The amount of the credit or payment.
      */
-	public String toString() {
-		//find index of the enum
-		int enumIndex = type.ordinal();
-		
-		//format AmazonCredit info into string
-		return String.format("- Credit [%d]: Type: %s, value: %.2f ",enumIndex, type, amount);
-		
-	}
-	
-	//getters and setters
-	
-	public float getAmount() {
-		return amount;
-	}
+    private float amount;
 
-	public void setAmount(float amount) {
-		this.amount = amount;
-	}
+    /**
+     * The type of payment associated with this credit.
+     */
+    private PaymentType type;
 
-	public PaymentType getType() {
-		return type;
-	}
+    /**
+     * Constructs an `AmazonCredit` object with the specified amount.
+     *
+     * @param myAmount the amount of the credit or payment
+     */
+    public AmazonCredit(float myAmount) {
+        amount = myAmount;
+    }
 
-	public void setType(PaymentType type) {
-		this.type = type;
-	}
-	
-	
+    /**
+     * Returns a formatted string representing the details of the credit.
+     * @return a string containing the payment type and amount in a structured format
+     */
+    @Override
+    public String toString() {
+        // Find index of the enum
+        int enumIndex = type.ordinal();
 
+        // Format AmazonCredit info into a string
+        return String.format("- Credit [%d]: Type: %s, Value: %.2f", enumIndex, type, amount);
+    }
+
+    // Getters and Setters
+
+    /**
+     * Retrieves the amount associated with this credit.
+     * @return the amount as a float
+     */
+    public float getAmount() {
+        return amount;
+    }
+
+    /**
+     * Updates the amount associated with this credit.
+     * @param amount the new amount to set
+     */
+    public void setAmount(float amount) {
+        this.amount = amount;
+    }
+
+    /**
+     * Retrieves the type of payment associated with this credit.
+     * @return the `PaymentType` of this credit
+     */
+    public PaymentType getType() {
+        return type;
+    }
+
+    /**
+     * Updates the type of payment associated with this credit.
+     * @param type the new `PaymentType` to set
+     */
+    public void setType(PaymentType type) {
+        this.type = type;
+    }
 }
