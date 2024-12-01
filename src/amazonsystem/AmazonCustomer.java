@@ -210,6 +210,12 @@ public class AmazonCustomer {
      * AmazonCredits method for printing the comments in the comments list.
      */
 	public void showComments() {
+		
+		if(comments.isEmpty()) {
+			System.out.println("comments are empty.");
+			return;
+		}
+		
 		for(AmazonComment c : comments) {
 			System.out.println(c);
 		}
@@ -248,7 +254,7 @@ public class AmazonCustomer {
 		 }
 	
 	
-	public boolean pay(int index) {
+/*	public boolean pay(int index) {
 		 float total = cart.calcSubTotal();
 		 AmazonCredit credit = credits.get(index);
 		 float pay = credit.getAmount();
@@ -272,7 +278,7 @@ public class AmazonCustomer {
 		   }
 		  
 		}
-	
+	*/
 	
 	
 
