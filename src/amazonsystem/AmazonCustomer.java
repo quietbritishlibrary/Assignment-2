@@ -192,19 +192,13 @@ public class AmazonCustomer {
             return false; 
         }
 
-		AmazonComment comment = new AmazonComment(product);
-		
-		comment.setRating(rating);
-		comment.setComment(newComment);	
-
-		
-			if(product.getId() == 1) {
-				comments.set(0, comment);
-			}
-	            
-			if(product.getId() == 2) {
-				comments.set(1, comment);
-			}    
+		for (AmazonComment existingComment : comments) {
+	        if (existingComment.getProduct().getId() == product.getId()) {
+	            existingComment.setComment(newComment);
+	            existingComment.setRating(rating);
+	            return true;
+	        }
+	    }
 	       
 
 		return true;
@@ -237,7 +231,7 @@ public class AmazonCustomer {
 		 
 		 
 		   if(pay >= total ) {
-			   money.setAmount(total - pay);
+			   money.setAmount(pay - total);
 			   //makes 2 comments
 			   for(AmazonCartItem p: itemsList) { 
 				   AmazonProduct product = p.getProduct();

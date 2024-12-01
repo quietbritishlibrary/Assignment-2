@@ -983,7 +983,6 @@ public class AmazonManager {
   	
   	public void payCart() {
   		String customerId = "";
-  	    int customerSize = customers.size();
   	    AmazonCustomer customer = null;
   	    String typeOfCredit = "";
   	    
@@ -998,9 +997,7 @@ public class AmazonManager {
   	        		throw new AmazonException("AmazonException: There are no items to be purchased; please load products and try again.");
   	        	}else if(customers.isEmpty()) {
   	        		throw new AmazonException("AmazonException: You must add a user before attempting to purchase items.");
-  	        	}else if(customer.getCredits().isEmpty()) {
-  	        		throw new AmazonException("AmazonException: You must add credit before attempting to purchase items from your cart.");
-  	        	}
+  	        	} 
   	        	
   	            System.out.print("Enter the Customer id: ");
   	            customerId = input.nextLine();
@@ -1019,10 +1016,10 @@ public class AmazonManager {
  	                    break;
  	                }
  	            }
-
-  	            if (customer == null) {
-  	                throw new AmazonException("AmazonException: Customer not found!");
-  	            }
+  	          
+  	          	if(customer.getCredits().isEmpty()) {
+	        		throw new AmazonException("AmazonException: You must add credit before attempting to purchase items from your cart.");
+	        	}
 
   	            break;
 
@@ -1036,13 +1033,13 @@ public class AmazonManager {
 	        	}else if(customers.isEmpty()) {
 	        		return;
 	        	}else if(customer.getCredits().isEmpty()) {
-  	        		return;
-  	        	}
+	        		return;
+	        	}
   	        }
   	    }
 
   	  
-  	    AmazonCart cart = customer.getCart(); // Assuming the customer has a cart now
+  	    AmazonCart cart = customer.getCart();
   	    if (cart == null || cart.getItems().isEmpty()) {
   	        System.out.println("Cart is empty. You cannot pay for an empty cart.");
   	        return;
@@ -1070,6 +1067,7 @@ public class AmazonManager {
 	                        	throw new AmazonException("AmazonException: You dont have enough credits of cash, try a different payment method.");
 	                        }
   	                        System.out.println("Customer credit updated: " + credit);
+  	                        System.out.println("Cart empty - you can comment products now.");
   	                        break;
   	                    }
   	                }
@@ -1086,6 +1084,7 @@ public class AmazonManager {
   	                        	throw new AmazonException("AmazonException: You dont have enough credits on your check, try a different payment method.");
   	                        }
   	                        System.out.println("Customer credit updated: " + credit);
+  	                        System.out.println("Cart empty - you can comment products now.");
   	                        break;
   	                    }
   	                }
@@ -1102,6 +1101,7 @@ public class AmazonManager {
 	                        	throw new AmazonException("AmazonException: You dont have enough credits on your card, try a different payment method.");
 	                        }
   	                        System.out.println("Customer credit updated: " + credit);
+  	                        System.out.println("Cart empty - you can comment products now.");
   	                        break;
   	                    }
   	                }
@@ -1121,7 +1121,7 @@ public class AmazonManager {
   	    break;
   	
   	  }
-  	  System.out.println("Cart empty - you can comment products now.");
+  	  
 
   	}
   	
@@ -1203,14 +1203,14 @@ public class AmazonManager {
    	    System.out.print("Enter the comment: "); // prompt for comment
    	    comment = input.nextLine(); // assign entered comment
    	    
-   	    System.out.println("Enter the stars: "); // prompt rating
+   	    System.out.print("Enter the stars: "); // prompt rating
    	    rating = input.nextLine(); // assign entered rating
    	    
    	    float ratingFloat = Float.parseFloat(rating);
    	    
    	    customer.setComment(product, comment, ratingFloat);
    	    
-   	    System.out.println("Comment form customer - Customer: " +  "[" + customer.getId() + "], [Name: " + customer.getName() + "], . . .");
+   	    System.out.println("Comment from customer " + customer );
    	    
   		
   	}
