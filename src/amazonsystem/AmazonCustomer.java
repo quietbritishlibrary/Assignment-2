@@ -1,369 +1,309 @@
 package amazonsystem;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Represents a customer on Amazon, with details like their id, name, address, 
+ * shopping cart, wishlist, credits, and comments.
+ */
 public class AmazonCustomer {
-	
-	// field
-	private int id;
-	private String name;
-	private String address;
-	
-	private List <AmazonComment> comments = new ArrayList <AmazonComment>();
-	private List <AmazonProduct> wishlist = new ArrayList <AmazonProduct>();
-	private List <AmazonCredit> credits = new ArrayList <AmazonCredit>();
-	
-	private AmazonCart cart;
-	
 
-	/**
-     * AmazonCustomer parameterized-constructor
-     * @param The customers id, name and address.
+    // Fields
+    private int id;
+    private String name;
+    private String address;
+    
+    private List<AmazonComment> comments = new ArrayList<AmazonComment>();
+    private List<AmazonProduct> wishlist = new ArrayList<AmazonProduct>();
+    private List<AmazonCredit> credits = new ArrayList<AmazonCredit>();
+    
+    private AmazonCart cart;
+
+    /**
+     * Constructs an AmazonCustomer with the given id, name, and address.
+     *
+     * @param myId The customer's id.
+     * @param myName The customer's name.
+     * @param myAddress The customer's address.
      */
-	private AmazonCustomer(int myId, String myName, String myAddress) {
-		id = myId;
-		name = myName;
-		address = myAddress;
-		this.comments = new ArrayList<AmazonComment>();
+    private AmazonCustomer(int myId, String myName, String myAddress) {
+        id = myId;
+        name = myName;
+        address = myAddress;
+        this.comments = new ArrayList<AmazonComment>();
         this.wishlist = new ArrayList<AmazonProduct>();
         this.credits = new ArrayList<AmazonCredit>();
         this.cart = new AmazonCart(this);
-	}
-	
-	/**
-     * AmazonCustomer constructor used to assign substrings to appropriately parsed AmazonProduct property
-     * @param String array of substrings of the customers data.
-     */
-	private AmazonCustomer(String [] data) {
-		this.id = Integer.parseInt(data[0]);
-		this.name = data[1];
-		this.address = data[2];
-		this.cart = new AmazonCart(this);
-	}
-	
+    }
 
-	/**
-     * AmazonCustomer method used to create AmazonCustomer objects as long as they aren't null
-     * @param String array of substrings of the customers data.
+    /**
+     * Constructs an AmazonCustomer from an array of strings representing customer data.
+     *
+     * @param data The customer data in a String array.
      */
-	public static AmazonCustomer createAmazonCustomer(String [] data) {
-		   
-		   if(data == null) {
-			   return null;
-			   
-		   } else if(data.length != 3) {
-			   return null;
-		   }
-		   
-		   
-		   
-			    int id = Integer.parseInt(data[0]);
-				String name = data[1];
-		        String address = data[2];
-		        
-		        if(name.isBlank() || name.isEmpty() || address.isBlank() || address.isEmpty() || id < 1) {
-					return null;
-				}
-				
-				AmazonCustomer customer = new AmazonCustomer(data);
-				   
-				return customer;
-		
-		}
-	
-	/**
-     * AmazonCustomer method for adding credits to the customers profile
-     * @param the AmazonCredit the customer wants to add.
+    private AmazonCustomer(String[] data) {
+        this.id = Integer.parseInt(data[0]);
+        this.name = data[1];
+        this.address = data[2];
+        this.cart = new AmazonCart(this);
+    }
+
+    /**
+     * Creates an AmazonCustomer object from an array of customer data, ensuring the data is valid.
+     *
+     * @param data The customer data in a String array.
+     * @return A new AmazonCustomer if valid data, otherwise null.
      */
-	public void addCredit(AmazonCredit credit) {
-		credits.add(credit);
-	}
-	
-	/**
-     * AmazonCredits method for displaying the credits in the customers list
-     */
-	public void showCredits() {
-		
-		if(credits.isEmpty()) {
-			System.out.println("You have no credits");
-			return;
-		}
-		
-		for(AmazonCredit c : credits) {
-			System.out.println(c);
-		}
-	}
-	
-	/**
-     * AmazonCredits method for adding product to wishlist
-     */
-	public void addProductInWishList(AmazonProduct product) {
-		wishlist.add(product);
-	}
-	
-	/**
-     * AmazonCredits method for removing product from wishlist based on their ID
-     * @param product that the user wishes to remove.
-     */
-	public void removeProductFromWishList(AmazonProduct product) {
-		int size = wishlist.size();
-		for(int i = 0; i < size; i++) {
-			AmazonProduct currentProduct = wishlist.get(i);
-			if(currentProduct.equals(product)) {
-				wishlist.remove(i);
-				break;
-			}
-		}
-	}
-	
-	/**
-     * AmazonCredits method for checking if a product is in the wishlist
-     * @param AmazonProduct searched in the wishlist
-     * @return The method should return true if the specified AmazonProduct is found in the collection; otherwise, it should return false, indicating that the product was not located.
-     */
-	public boolean isProductInWishList(AmazonProduct product) {
-		int size = wishlist.size();
-		
-		for(int i = 0; i < size; i++) {
-			AmazonProduct currentProduct = wishlist.get(i); //points to current AmazonProduct 
-			if (currentProduct.equals(product)) {
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	/**
-     * AmazonCustomer method for printing the items of the wishlist
-     */
-	public void showWishList() {
-		
-		if(wishlist.isEmpty()) {
-			System.out.println("Wishlist is empty.");
-			return;
-		}
-		System.out.println("Printing wishlist ..............");
-		for(AmazonProduct p : wishlist) {
-			System.out.println(p);
-		}
-	}
-	
-	/**
-     * AmazonCustomer method for adding items to the customers cart
-     * @param the item that the customer wishes to add.
-     */
-	public void addItemInCart(AmazonCartItem item) {
-	    cart.getItems().add(item);
-	}
-	
-	public void removeProductFromCart(AmazonProduct product) {
-	
-	}
-	
-	public void showCart() {
-		
-		AmazonCart cart = getCart(); 
-		if(cart.getItems().isEmpty()) {
-			System.out.println("cart is empty.");
-			return;
-		}
-		System.out.println(cart);	
-	}
-	
-	/**
-     * AmazonCustomer method for adding comments to the comments list
-     * @param The AmazonComment the user wishes to add.
-     */
-	public void addComment(AmazonComment comment) {
-		comments.add(comment);
-	}
-	
-	/**
-     * AmazonCustomer method for creating a new comment
-     * @param The AmazonComment product, comment and rating that it pertains to.
-     * @return true or false based on if the AmazonComment object managed to be created.
-     */
-	public boolean setComment(AmazonProduct product, String newComment, float rating) {
-		if (product == null || newComment == null || rating < 0 || rating > 5) {
-            return false; 
+    public static AmazonCustomer createAmazonCustomer(String[] data) {
+        if (data == null || data.length != 3) {
+            return null;
         }
 
-		for (AmazonComment existingComment : comments) {
-	        if (existingComment.getProduct().getId() == product.getId()) {
-	            existingComment.setComment(newComment);
-	            existingComment.setRating(rating);
-	            return true;
-	        }
-	    }
-	       
+        int id = Integer.parseInt(data[0]);
+        String name = data[1];
+        String address = data[2];
 
-		return true;
-		
-		
-	}
-	
-	/**
-     * AmazonCredits method for printing the comments in the comments list.
+        if (name.isBlank() || name.isEmpty() || address.isBlank() || address.isEmpty() || id < 1) {
+            return null;
+        }
+
+        return new AmazonCustomer(data);
+    }
+
+    /**
+     * Adds a credit to the customer's list of credits.
+     *
+     * @param credit The AmazonCredit to add.
      */
-	public void showComments() {
-		
-		if(comments.isEmpty()) {
-			System.out.println("comments are empty.");
-			return;
-		}
-		
-		for(AmazonComment c : comments) {
-			System.out.println(c);
-		}
-	}
-	
-	/**
-     * AmazonCredits method for formatting and printing the customers.
+    public void addCredit(AmazonCredit credit) {
+        credits.add(credit);
+    }
+
+    /**
+     * Displays the list of credits the customer has.
      */
-	 public String toString() {
-		return String.format("- Customer: [Id: %d], [Name: %s], [Address: %s]", id, name, address);
-	}
-	 
-	public boolean pay(AmazonCredit money) {
-		 float total = cart.calcSubTotal();
-		 float pay = money.getAmount();
-		 List <AmazonCartItem> itemsList = getCart().getItems();
-		 AmazonComment comment = null;
-		 
-		 
-		 
-		   if(pay >= total ) {
-			   money.setAmount(pay - total);
-			   //makes 2 comments
-			   for(AmazonCartItem p: itemsList) { 
-				   AmazonProduct product = p.getProduct();
-				   comment = new AmazonComment(product);
-				   addComment(comment);
-			   }
-			   itemsList.clear();
-	
-			   return true;
-		   }else {
-			   return false;
-		   }
-		  
-		 }
-	
-	
-/*	public boolean pay(int index) {
-		 float total = cart.calcSubTotal();
-		 AmazonCredit credit = credits.get(index);
-		 float pay = credit.getAmount();
-		 List <AmazonCartItem> itemsList = getCart().getItems();
-		 AmazonComment comment = null;
-		 
-		 
-		 
-		   if(pay >= total ) {
-			   //makes 2 comments
-			   for(AmazonCartItem p: itemsList) { 
-				   AmazonProduct product = p.getProduct();
-				   comment = new AmazonComment(product);
-				   addComment(comment);
-			   }
-			   itemsList.clear();
-	
-			   return true;
-		   }else {
-			   return false;
-		   }
-		  
-		}
-	*/
-	
-	
+    public void showCredits() {
+        if (credits.isEmpty()) {
+            System.out.println("You have no credits");
+            return;
+        }
+        for (AmazonCredit c : credits) {
+            System.out.println(c);
+        }
+    }
 
-	// getters and setters
+    /**
+     * Adds a product to the customer's wishlist.
+     *
+     * @param product The AmazonProduct to add.
+     */
+    public void addProductInWishList(AmazonProduct product) {
+        wishlist.add(product);
+    }
 
-	public int getId() {
-		return id;
-	}
+    /**
+     * Removes a product from the customer's wishlist.
+     *
+     * @param product The AmazonProduct to remove.
+     */
+    public void removeProductFromWishList(AmazonProduct product) {
+        wishlist.removeIf(currentProduct -> currentProduct.equals(product));
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    /**
+     * Checks if a product exists in the customer's wishlist.
+     *
+     * @param product The AmazonProduct to check.
+     * @return True if the product is in the wishlist, otherwise false.
+     */
+    public boolean isProductInWishList(AmazonProduct product) {
+        return wishlist.contains(product);
+    }
 
-	public String getName() {
-		return name;
-	}
+    /**
+     * Displays the customer's wishlist.
+     */
+    public void showWishList() {
+        if (wishlist.isEmpty()) {
+            System.out.println("Wishlist is empty.");
+            return;
+        }
+        System.out.println("Printing wishlist ..............");
+        for (AmazonProduct p : wishlist) {
+            System.out.println(p);
+        }
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    /**
+     * Adds an item to the customer's shopping cart.
+     *
+     * @param item The AmazonCartItem to add.
+     */
+    public void addItemInCart(AmazonCartItem item) {
+        cart.getItems().add(item);
+    }
 
-	public String getAddress() {
-		return address;
-	}
+    /**
+     * Displays the customer's shopping cart.
+     */
+    public void showCart() {
+        if (cart.getItems().isEmpty()) {
+            System.out.println("Cart is empty.");
+            return;
+        }
+        System.out.println(cart);
+    }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+    /**
+     * Adds a comment to the customer's list of comments.
+     *
+     * @param comment The AmazonComment to add.
+     */
+    public void addComment(AmazonComment comment) {
+        comments.add(comment);
+    }
 
-	public AmazonCart getCart() {
-		return cart;
-	}
+    /**
+     * Creates or updates a comment for a specific product, with a rating.
+     *
+     * @param product The AmazonProduct being commented on.
+     * @param newComment The text of the comment.
+     * @param rating The rating associated with the comment (between 0 and 5).
+     * @return True if the comment was successfully created or updated, otherwise false.
+     */
+    public boolean setComment(AmazonProduct product, String newComment, float rating) {
+        if (product == null || newComment == null || rating < 0 || rating > 5) {
+            return false;
+        }
 
-	public void setCart(AmazonCart cart) {
-		this.cart = cart;
-	}
+        for (AmazonComment existingComment : comments) {
+            if (existingComment.getProduct().getId() == product.getId()) {
+                existingComment.setComment(newComment);
+                existingComment.setRating(rating);
+                return true;
+            }
+        }
 
-	public List<AmazonComment> getComments() {
-		return comments;
-	}
+        // Create a new comment if none exists
+        comments.add(new AmazonComment(product));
+        return true;
+    }
 
-	public void setComments(List<AmazonComment> comments) {
-		this.comments = comments;
-	}
+    /**
+     * Displays all comments the customer has made.
+     */
+    public void showComments() {
+        if (comments.isEmpty()) {
+            System.out.println("Comments are empty.");
+            return;
+        }
+        for (AmazonComment c : comments) {
+            System.out.println(c);
+        }
+    }
 
-	public List<AmazonProduct> getWishlist() {
-		return wishlist;
-	}
+    /**
+     * Pays for the items in the customer's cart using the given payment method.
+     *
+     * @param money The AmazonCredit used to pay.
+     * @return True if the payment was successful, otherwise false.
+     */
+    public boolean pay(AmazonCredit money) {
+        float total = cart.calcSubTotal();
+        float pay = money.getAmount();
+        List<AmazonCartItem> itemsList = getCart().getItems();
+        
+        if (pay >= total) {
+            money.setAmount(pay - total);
+            // Adds a comment for each product
+            for (AmazonCartItem p : itemsList) {
+                AmazonProduct product = p.getProduct();
+                AmazonComment comment = new AmazonComment(product);
+                addComment(comment);
+            }
+            itemsList.clear();
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-	public void setWishlist(List<AmazonProduct> wishlist) {
-		this.wishlist = wishlist;
-	}
+    // Getters and setters
 
-	public List<AmazonCredit> getCredits() {
-		return credits;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setCredits(List<AmazonCredit> credits) {
-		this.credits = credits;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public Integer getCartSize() {
-		return cart.getItems().size();
-	}
+    public String getName() {
+        return name;
+    }
 
-	public Integer getNumberOfComments() {
-		return comments.size();
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public int getNumberOfCredits() {
-		return credits.size();
-	}
+    public String getAddress() {
+        return address;
+    }
 
-	public Integer getWishlistSize() {
-		return wishlist.size();
-	}
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-	public AmazonComment getComment(int i) {
-		return comments.get(i);
-	}
-	
-	
-	
+    public AmazonCart getCart() {
+        return cart;
+    }
 
-	
-	
-  
+    public void setCart(AmazonCart cart) {
+        this.cart = cart;
+    }
+
+    public List<AmazonComment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<AmazonComment> comments) {
+        this.comments = comments;
+    }
+
+    public List<AmazonProduct> getWishlist() {
+        return wishlist;
+    }
+
+    public void setWishlist(List<AmazonProduct> wishlist) {
+        this.wishlist = wishlist;
+    }
+
+    public List<AmazonCredit> getCredits() {
+        return credits;
+    }
+
+    public void setCredits(List<AmazonCredit> credits) {
+        this.credits = credits;
+    }
+
+    public Integer getCartSize() {
+        return cart.getItems().size();
+    }
+
+    public Integer getNumberOfComments() {
+        return comments.size();
+    }
+
+    public int getNumberOfCredits() {
+        return credits.size();
+    }
+
+    public Integer getWishlistSize() {
+        return wishlist.size();
+    }
+
+    public AmazonComment getComment(int i) {
+        return comments.get(i);
+    }
 }
