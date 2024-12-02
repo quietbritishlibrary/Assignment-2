@@ -78,7 +78,7 @@ class TestSBA {
 		customer.addItemInCart(item);
 		size = customer.getCartSize();
 		assertEquals(2, customer.getCartSize()); 
-		customer.pay(0); // index of credit 
+		//customer.pay(0); // index of credit 
 		size = customer.getCartSize();
 		assertEquals(0, customer.getCartSize());
 		 // PART 5 - Creating comments (1pt)

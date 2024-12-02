@@ -1,6 +1,5 @@
 package amazonsystem;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -69,7 +68,7 @@ public class AmazonManager {
 
             try {
 
-                // Get the user's choice and convert it to uppercase for uniformity
+                // Get the user's choice and convert it to uppercase 
                 option = input.nextLine().toUpperCase();
 
                 // Handle the user selection based on the selected menu option
@@ -207,13 +206,13 @@ public class AmazonManager {
                 String file = input.nextLine();
 
                 if (file.isEmpty()) {
-                    file = "src\\amazonsystem\\Sample-Amazon-Products-v2.csv";
+                    file = "resources\\Sample-Amazon-Products-v2.csv";
                     isValid = false;
                 }
                 
                 products.addAll(productList.createList(file));
                 
-                System.out.println("product loaded!");
+                System.out.println("[products loaded.]");
                 
             } catch (AmazonException e) {
                 System.out.println("AmazonProductException: " + e.getLocalizedMessage());
@@ -354,9 +353,12 @@ public class AmazonManager {
      * the AmazonCustomer class.
      */
     public void showCustomers() {
+    	
         if(customers.isEmpty()) {
-            System.out.println("There are no customers loaded");
+            System.out.println("There are no customers loaded.");
+            return;
         }
+        
         System.out.println("[Printing customers ...]");
         for(AmazonCustomer c : customers) {
             System.out.println(c);
@@ -374,7 +376,6 @@ public class AmazonManager {
      */
     public void addCreditToCustomer() throws AmazonException {
         String id = "";
-        int size = customers.size();
         AmazonCustomer customer = null;
         String typeOfCredit = "";
 
@@ -445,9 +446,10 @@ public class AmazonManager {
                                 existingCredit.setAmount(existingCredit.getAmount() + parsedCashAmount);
                                 System.out.println("Cash credit updated. New total: " + existingCredit.getAmount());
                                 creditFound = true;
-                                break;
+                                return;
                             }
                         }
+                        
                         if(creditFound == false) {   
                             String[] cashData = {cashAmount};    
                             newCredit = AmazonCash.createCash(cashData);
@@ -471,7 +473,7 @@ public class AmazonManager {
                                 existingCredit.setAmount(existingCredit.getAmount() + Float.parseFloat(checkAmount));
                                 System.out.println("Check credit updated. New total: " + existingCredit.getAmount());
                                 creditFound = true;
-                                break;
+                                return;
                             }
                         }
                         if(creditFound == false) {
@@ -499,7 +501,7 @@ public class AmazonManager {
                                 existingCredit.setAmount(existingCredit.getAmount() + Float.parseFloat(cardAmount));
                                 System.out.println("Card credit updated. New total: " + existingCredit.getAmount());
                                 creditFound = true;
-                                break;
+                                return;
                             }
                         }
                         if(creditFound == false) {
@@ -535,7 +537,6 @@ public class AmazonManager {
      */
     public void showCreditFromCustomer() {
         String id = "";
-        int size = customers.size();
         AmazonCustomer customer = null;
 
         while (true) {
@@ -593,8 +594,6 @@ public class AmazonManager {
     public void addProductInWishList() {
         String customerId = "";
         String productId = "";
-        int customerSize = customers.size();
-        int productSize = products.size();
         AmazonCustomer customer = null;
         AmazonProduct product = null;
 
@@ -895,7 +894,7 @@ public class AmazonManager {
         // Get the Product
         while (true) {
             try {
-                System.out.print("Enter the Product ID to buy from your cart: ");
+                System.out.print("Enter the Product ID to add to your cart: ");
                 productId = input.nextLine();
 
                 if (!AmazonUtil.isValidInt(productId)) {
@@ -970,6 +969,7 @@ public class AmazonManager {
      * This method prompts the user for a customer ID and product ID, validates the inputs, and removes the product from the customer's cart.
      * If the customer or product cannot be found, an exception is thrown.
      * It also ensures that a customer is added to the system before performing any operations.
+     * @throws AmazonException 
      */
     public void removeProductFromCart() {
         String customerId = "";
@@ -981,7 +981,7 @@ public class AmazonManager {
             try {
 
                 if(customers.isEmpty()) {
-                    throw new AmazonException("AmazonException: You must add users before showing the products in your cart.");
+                    throw new AmazonException("AmazonException: You must add users before removing the products in your cart.");
                 }
 
                 System.out.print("Enter the Customer id: ");
@@ -1001,9 +1001,14 @@ public class AmazonManager {
                         break;
                     }
                 }
+                
 
                 if (customer == null) {
                     throw new AmazonException("AmazonException: Customer not found!");
+                }
+                
+                if(customer.getCart().getItems().isEmpty()) {
+                	throw new AmazonException("AmazonException: There aren't any products in your cart to remove.");
                 }
 
                 break;
@@ -1016,6 +1021,8 @@ public class AmazonManager {
                 }
             }
         }
+        
+       
 
         // Get the Product to remove from cart
         while (true) {
@@ -1119,6 +1126,7 @@ public class AmazonManager {
         AmazonCustomer customer = null;
         String typeOfCredit = "";
         boolean validPaymentType = false;
+        boolean isEmpty = false;
 
         while (true) {
             try {
@@ -1148,8 +1156,13 @@ public class AmazonManager {
                         break;
                     }
                 }
+                
+                if (customer == null) {
+                    throw new AmazonException("AmazonException: Customer not found!");
+                }
 
                 if(customer.getCredits().isEmpty()) {
+                	isEmpty = true;
                     throw new AmazonException("AmazonException: You must add credit before attempting to purchase items from your cart.");
                 }
 
@@ -1164,7 +1177,7 @@ public class AmazonManager {
                     return;
                 } else if(customers.isEmpty()) {
                     return;
-                } else if(customer.getCredits().isEmpty()) {
+                } else if(isEmpty == true) {
                     return;
                 }
             }
@@ -1184,6 +1197,7 @@ public class AmazonManager {
                 System.out.print("Enter the payment method ([1]: Cash, [2]: Check, [3]: Card): ");
                 typeOfCredit = input.nextLine();
                 int creditSize = customer.getCredits().size();
+                boolean paymentFound = false;
 
                 switch (typeOfCredit) {
                     case "1":
@@ -1199,11 +1213,15 @@ public class AmazonManager {
                                 System.out.println("Customer credit updated: " + credit);
                                 System.out.println("Cart empty - you can comment products now.");
                                 validPaymentType = true;
+                                paymentFound = true;
                                 break;
-                            } else {
-                                throw new AmazonException("AmazonException: No credit found; add cash to customer and try again.");
-                            }
+                            } 
                         }
+                        
+                        if(paymentFound == false) {
+                            throw new AmazonException("AmazonException: No credit found; add cash to customer and try again.");
+                        }
+                        
                         return;
 
                     case "2":
@@ -1220,9 +1238,11 @@ public class AmazonManager {
                                 System.out.println("Cart empty - you can comment products now.");
                                 validPaymentType = true;
                                 break;
-                            } else {
-                                throw new AmazonException("AmazonException: No credit found; add check to customer and try again.");
-                            }
+                            } 
+                        }
+                        
+                        if(paymentFound == false) {
+                            throw new AmazonException("AmazonException: No credit found; add check to customer and try again.");
                         }
                         return;
 
@@ -1241,10 +1261,13 @@ public class AmazonManager {
                                 System.out.println("Cart empty - you can comment products now.");
                                 validPaymentType = true;
                                 break;
-                            } else {
-                                throw new AmazonException("AmazonException: No credit found; add card to customer and try again.");
-                            }
+                            } 
                         }
+                        
+                        if(paymentFound == false) {
+                            throw new AmazonException("AmazonException: No credit found; add card to customer and try again.");
+                        }
+                        
                         return;
 
                     default:
@@ -1353,6 +1376,7 @@ public class AmazonManager {
                 if (product == null) {
                     throw new AmazonException("AmazonException: Product not found, try a different ID!");
                 }
+                
                 break;
 
             } catch (AmazonException e) {
@@ -1383,7 +1407,6 @@ public class AmazonManager {
      */
     public void showComments() {
         String customerId = "";
-        String productId = "";
         AmazonCustomer customer = null;
 
         while (true) {
@@ -1589,10 +1612,3 @@ public class AmazonManager {
   	
 
 }
-  
-  	
-
-
-
-
-

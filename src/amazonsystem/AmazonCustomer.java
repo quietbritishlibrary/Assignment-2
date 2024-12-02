@@ -228,6 +228,13 @@ public class AmazonCustomer {
             return false;
         }
     }
+    
+    /**
+     * AmazonCredits method for formatting and printing the customers.
+     */
+	 public String toString() {
+		return String.format("- Customer: [Id: %d], [Name: %s], [Address: %s]", id, name, address);
+	}
 
     // Getters and setters
 
